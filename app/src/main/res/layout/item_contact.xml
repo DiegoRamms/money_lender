@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
+
+
+
+    <View
+        android:layout_margin="20dp"
+        android:id="@+id/circular_view"
+        android:background="@drawable/circular_gradient_shape"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="40dp"
+        android:layout_height="40dp"/>
+
+    <TextView
+        android:id="@+id/text_first_letter"
+        app:layout_constraintTop_toTopOf="@+id/circular_view"
+        app:layout_constraintBottom_toBottomOf="@id/circular_view"
+        app:layout_constraintStart_toStartOf="@id/circular_view"
+        app:layout_constraintEnd_toEndOf="@id/circular_view"
+        tool:text="D"
+        android:textStyle="bold"
+        android:fontFamily="@font/baloo_chettan"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/text_view_name"
+        app:layout_constraintStart_toEndOf="@id/circular_view"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tool:text="Diego Beltrán"
+        android:layout_marginStart="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

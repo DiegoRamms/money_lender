@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- "Mark Favorite", should appear as action button if possible -->
+    <item
+        android:id="@+id/logout"
+        android:iconTint="@color/white"
+        android:title="cerrar sesión"
+        app:showAsAction="withText"/>
+    <item
+        android:id="@+id/alert"
+
+        android:icon="@drawable/ic_baseline_notifications_active_24"
+        android:title="cerrar sesión"
+        app:showAsAction="always"/>
+
+
+
+</menu>

@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Prestador</string>
+    <string name="money">Money</string>
+    <string name="lender">Lender</string>
+    <string name="email">Correo</string>
+    <string name="password">Contraseña</string>
+    <string name="start">iniciar</string>
+    <string name="question_register">¿Aún no tienes cuenta?</string>
+    <string name="register">Registrate</string>
+    <string name="loading">Cargando</string>
+    <string name="add_contact">Agregar contacto</string>
+    <string name="add_code">Ingresa codigo</string>
+    <string name="fab_add_contact">fab_add_contact</string>
+    <string name="without_contacts">Aún no tienes contactos agregados</string>
+    <string name="error_text">Error al intentar obtener datos</string>
+    <string name="error_code">"Codigo invalido"</string>
+    <string name="tittle_request">Solicitudes recibidas:</string>
+
+</resources>
