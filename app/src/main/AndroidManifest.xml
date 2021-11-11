@@ -33,6 +33,13 @@
             android:theme="@style/Theme.Transparent"
             />
 
+        <activity android:name=".presentation.contacts.pending.PendingContactActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".presentation.contacts.detail.ContactDetailActivity"
+            android:screenOrientation="portrait"/>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

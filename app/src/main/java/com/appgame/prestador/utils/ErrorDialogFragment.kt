@@ -2,58 +2,63 @@ package com.appgame.prestador.utils
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import com.appgame.prestador.R
 import com.appgame.prestador.databinding.FragmentDialogErrorBinding
 
-class ErrorDialogFragment private constructor() : DialogFragment() {
+class ErrorDialogFragment : DialogFragment() {
 
     private var _binding: FragmentDialogErrorBinding? = null
     private val binding get() = _binding
-    private var listener: (() ->Unit)? = null
+    private var listener: (() -> Unit)? = null
+    private var textMessage: String = ""
+    private var textButton: String = ""
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        isCancelable = false
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = FragmentDialogErrorBinding.inflate(layoutInflater)
+        val dialog = Dialog(requireContext(), R.style.DialogThemeAnim)
 
-        val dialog = Dialog(requireContext(),R.style.DialogTheme)
+        if (textMessage.isNotEmpty()) this.binding?.tvError?.text = textMessage
+        if (textButton.isNotEmpty()) this.binding?.tvError?.text = textButton
+
         dialog.setCancelable(false)
-
         binding?.let {
             dialog.setContentView(it.root)
         }
-
-
+        binding?.tvRetry?.setOnClickListener {
+            listener?.invoke()
+            dismiss()
+        }
 
         return dialog
-
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding?.tvError?.setOnClickListener {
-            listener
-            dismiss()
+    fun showDialog(
+        fragmentManager: FragmentManager,
+        textMessage: String = "",
+        textButton: String = "",
+        listener: (() -> Unit)? = null
+    ) {
+        this.textMessage = textMessage
+        this.textButton = textButton
+        if (listener != null) {
+            this.listener = listener
+        }
+        if (!this.isAdded) {
+            show(fragmentManager, TAG)
         }
     }
 
-
-    fun clickRetry(listener: () -> Unit){
-        this.listener = listener
-    }
-
-    fun setMessage(message: String) {
-        binding?.tvError?.text = message
-    }
-
-
     companion object {
-
         val TAG: String = ErrorDialogFragment::class.java.simpleName
-
         fun newInstance() = ErrorDialogFragment()
-
-
     }
+
 
 }

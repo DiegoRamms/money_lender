@@ -16,9 +16,11 @@ interface ContactsService {
     suspend fun getPendingContacts(): ContactsResponse
 
     @POST("contact/cancelRequest")
-    suspend fun deleteContactRequest(@Body contactRequestRequest: DeleteContactRequestRequest): ContactResponse
+    suspend fun deleteContactRequest(@Body idContactRequest: IdContactRequest): ContactResponse
 
     @POST("contact/listToAccept")
     suspend fun getContactsToAccept(): ContactsResponse
 
+    @POST("contact/accept")
+    suspend fun acceptContact(@Body idContactRequest: IdContactRequest): ContactResponse
 }

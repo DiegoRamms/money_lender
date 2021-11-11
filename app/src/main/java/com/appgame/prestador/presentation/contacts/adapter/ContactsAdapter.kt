@@ -2,17 +2,15 @@ package com.appgame.prestador.presentation.contacts.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.appgame.prestador.databinding.ItemContactBinding
-import com.appgame.prestador.domain.contact.ContactDTO
-import javax.inject.Inject
-import javax.inject.Singleton
+import com.appgame.prestador.domain.contact.Contact
 
-@Singleton
-class ContactsAdapter @Inject constructor() : RecyclerView.Adapter<ContactsAdapter.ViewHolder>() {
 
-    private var contactDTOS: List<ContactDTO>? = null
-    private var onItemListener: ((ContactDTO) -> Unit)? = null
+class ContactsAdapter  : ListAdapter<Contact, ContactsAdapter.ViewHolder>(ContactDiffCallback) {
+
+    private var onItemListener: ((Contact) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemContactBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -20,14 +18,11 @@ class ContactsAdapter @Inject constructor() : RecyclerView.Adapter<ContactsAdapt
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val contact = contactDTOS!![position]
+        val contact = getItem(position)
         holder.textFirstLetter.text = contact.name[0].toString()
         holder.textName.text = contact.name
     }
 
-    override fun getItemCount(): Int {
-        return contactDTOS?.size ?: 0
-    }
 
     inner class ViewHolder(binding: ItemContactBinding): RecyclerView.ViewHolder(binding.root) {
         val textName = binding.textViewName
@@ -35,20 +30,16 @@ class ContactsAdapter @Inject constructor() : RecyclerView.Adapter<ContactsAdapt
 
         init {
             binding.root.setOnClickListener {
-               onItemListener?.let { it(contactDTOS!![adapterPosition]) }
+               onItemListener?.let { it(getItem(adapterPosition)) }
             }
         }
     }
 
 
-    fun setOnItemListener(listener : ((ContactDTO) -> Unit)){
+    fun setOnItemListener(listener : ((Contact) -> Unit)){
         onItemListener = listener
     }
 
 
-    fun setContacts(contactDTOS: List<ContactDTO>){
-        this.contactDTOS = contactDTOS
-        notifyDataSetChanged()
-    }
 
 }

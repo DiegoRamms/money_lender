@@ -1,9 +1,11 @@
 package com.appgame.prestador.presentation.contacts.request_pending
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,20 +14,20 @@ import com.appgame.prestador.databinding.FragmentAddContactBinding
 import com.appgame.prestador.domain.StatusResult
 import com.appgame.prestador.domain.contact.AddContactRequest
 import com.appgame.prestador.domain.contact.DeleteContactRequestRequest
+import com.appgame.prestador.domain.contact.IdContactRequest
 import com.appgame.prestador.domain.user.SearchUserRequest
 import com.appgame.prestador.presentation.contacts.adapter.ContactsRequestPendingAdapter
-import com.appgame.prestador.utils.LoadingDialogFragment
-import com.appgame.prestador.utils.clickWithDelay
-import com.appgame.prestador.utils.toastLong
+import com.appgame.prestador.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AddContactFragment private constructor() : Fragment() {
+class AddContactFragment : Fragment() {
 
     private var _binding: FragmentAddContactBinding? = null
     private val binding get() = _binding
     private val viewModel: AddContactViewModel by viewModels()
     private val dialogLoading: LoadingDialogFragment by lazy { LoadingDialogFragment.newInstance() }
+    private val errorDialogFragment: ErrorDialogFragment by lazy { ErrorDialogFragment.newInstance() }
     private var userCode = ""
     private var userCodeFound = ""
     private lateinit var contactsRequestPendingAdapter: ContactsRequestPendingAdapter
@@ -70,7 +72,7 @@ class AddContactFragment private constructor() : Fragment() {
 
 
         contactsRequestPendingAdapter.setOnItemClickListener { contact ->
-            contact.idContact?.let { viewModel.deleteContact(DeleteContactRequestRequest(it)) }
+            contact.idContact?.let { viewModel.deleteContact(IdContactRequest(it)) }
         }
     }
 
@@ -88,7 +90,7 @@ class AddContactFragment private constructor() : Fragment() {
             if (isValid) viewModel.searchUser(SearchUserRequest(userCode))
             else {
                 binding?.edtCode?.error = requireContext().getString(R.string.error_code)
-                binding?.cardUserFound?.animate()?.alpha(0f)?.duration = 1000
+                binding?.cardUserFound?.fadeAnim()
             }
         })
 
@@ -100,17 +102,15 @@ class AddContactFragment private constructor() : Fragment() {
                 StatusResult.OK -> {
                     it.data?.let { user ->
                         userCodeFound = user.code
-                        binding?.cardUserFound?.x = -1000F
-                        binding?.cardUserFound?.alpha = 1f
                         binding?.cardUserFound?.visibility = View.VISIBLE
                         binding?.tvName?.text = user.name
                         binding?.tvCode?.text = user.code
-                        binding?.cardUserFound?.animate()?.translationX(0f)?.duration = 800
+                        binding?.cardUserFound?.translationToRight()
                     }
                 }
                 StatusResult.BAD -> {
-                    requireContext().toastLong(it.message)
-                    binding?.cardUserFound?.animate()?.alpha(0f)?.duration = 1000
+                    initDialogError(it.message)
+                    binding?.cardUserFound?.fadeAnim()
                 }
             }
         })
@@ -126,8 +126,11 @@ class AddContactFragment private constructor() : Fragment() {
                     initDialogLoading()
                 }
                 StatusResult.OK -> {
+                    if (it.code == CODE_CANT_ADD) requireContext().simpleDialog(
+                        message = it.message,
+                        isCancelable = false,
+                        clickPositive = { dialog, _ -> dialog.dismiss() })
                     binding?.cardUserFound?.animate()?.alpha(0f)?.duration = 1000
-                    requireContext().toastLong(it.message)
                 }
                 StatusResult.BAD -> {
                     requireContext().toastLong(it.message)
@@ -146,10 +149,11 @@ class AddContactFragment private constructor() : Fragment() {
 
     private fun initDialogLoading() {
         viewModel.setDismissFalse()
-        if (!dialogLoading.isAdded) {
-            dialogLoading.show(parentFragmentManager, LoadingDialogFragment.TAG)
-        }
+        dialogLoading.showDialog(parentFragmentManager)
+    }
 
+    private fun initDialogError(message: String) {
+        errorDialogFragment.showDialog(parentFragmentManager,textMessage = message)
     }
 
     companion object {

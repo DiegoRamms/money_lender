@@ -5,6 +5,7 @@ import android.content.Intent
 import android.util.Log
 import com.appgame.prestador.data.localdatasource.LoginLocalDataSource
 import com.appgame.prestador.data.networkdatasource.service.ContactsService
+import com.appgame.prestador.data.networkdatasource.service.LoanService
 import com.appgame.prestador.data.networkdatasource.service.LoginService
 import com.appgame.prestador.data.networkdatasource.service.UserService
 import com.appgame.prestador.utils.CODE_SESSION_EXPIRED
@@ -19,6 +20,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -33,6 +35,9 @@ object NetworkModule {
         localDataSource: LoginLocalDataSource
     ): OkHttpClient {
         return OkHttpClient.Builder()
+            .readTimeout(2,TimeUnit.SECONDS)
+            .writeTimeout(2,TimeUnit.SECONDS)
+            .connectTimeout(2,TimeUnit.SECONDS)
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .addInterceptor { chain ->
                 val request = chain.request()
@@ -84,7 +89,13 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun providesSearchUserService(retrofit: Retrofit): UserService {
+    fun provideUserService(retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLoanService(retrofit: Retrofit): LoanService{
+        return retrofit.create(LoanService::class.java)
     }
 }

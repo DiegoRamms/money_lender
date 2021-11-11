@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Prestador</string>
+    <string name="app_name">Money Lender</string>
     <string name="money">Money</string>
     <string name="lender">Lender</string>
     <string name="email">Correo</string>
@@ -15,5 +15,6 @@
     <string name="error_text">Error al intentar obtener datos</string>
     <string name="error_code">"Codigo invalido"</string>
     <string name="tittle_request">Solicitudes recibidas:</string>
+    <string name="no_requests">Sin solicitudes</string>
 
 </resources>

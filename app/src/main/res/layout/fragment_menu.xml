@@ -7,7 +7,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/content_view"
+        app:layout_constraintBottom_toTopOf="@id/view_pager"
         android:layout_width="match_parent"
         app:elevation="10dp"
         android:layout_height="wrap_content">
@@ -20,8 +20,8 @@
             android:layout_height="wrap_content"/>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <FrameLayout
-        android:id="@+id/content_view"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
         app:layout_constraintTop_toBottomOf="@id/appbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

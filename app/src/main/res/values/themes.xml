@@ -13,13 +13,25 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="colorOnBackground">@color/background_light</item>
+
+
+        <item name="android:windowContentTransitions">true</item>
+
     </style>
 
 
     <style name="DialogTheme" parent="ThemeOverlay.AppCompat.ActionBar" />
+    <style name="DialogThemeAnim" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:windowAnimationStyle">@style/MyAnimation.Window</item>
+    </style>
 
     <style name="DialogThemeFullScreen" parent="Theme.Prestador">
         <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="MyAnimation.Window" parent="@android:style/Animation.Activity">
+        <item name="android:windowEnterAnimation">@anim/anim_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_out</item>
     </style>
 
     <style name="Theme.Transparent" parent="Theme.AppCompat.Light">

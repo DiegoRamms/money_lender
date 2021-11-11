@@ -33,7 +33,7 @@ class MainFragment: Fragment() {
     companion object {
         val TAG: String = MainFragment::class.java.simpleName
 
-        fun getInstance() = MainFragment()
+        fun newInstance() = MainFragment()
 
     }
 

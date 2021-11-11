@@ -20,7 +20,7 @@ fun Context.toastLong(text: String) {
 fun Context.simpleDialog(
     title: String? = "Alerta",
     message: String? = "",
-    clickPositive: (DialogInterface, Int) -> Unit,
+    clickPositive: (DialogInterface, Int) -> Unit = {dialog,_ -> dialog.dismiss()},
     clickNegative: ((DialogInterface, Int) -> Unit)? = null,
     //eventDismiss: ((DialogInterface, Int) -> Unit)? = null
     isCancelable: Boolean = false
@@ -34,8 +34,6 @@ fun Context.simpleDialog(
         setButton(AlertDialog.BUTTON_POSITIVE, "Aceptar", clickPositive)
 
         if (clickNegative != null) setButton(AlertDialog.BUTTON_NEGATIVE, "Cancelar", clickNegative)
-
-
     }
     dialog.show()
 }

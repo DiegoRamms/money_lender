@@ -1,8 +1,11 @@
 package com.appgame.prestador.di
 
 import com.appgame.prestador.domain.repository.ContactsRepository
+import com.appgame.prestador.domain.repository.LoanRepository
 import com.appgame.prestador.domain.repository.UserRepository
 import com.appgame.prestador.use_case.contact.*
+import com.appgame.prestador.use_case.loan.GetLoansByContactId
+import com.appgame.prestador.use_case.loan.LoanUseCases
 import com.appgame.prestador.use_case.user.SearchUser
 import com.appgame.prestador.use_case.user.UserUseCases
 import dagger.Module
@@ -23,8 +26,9 @@ object UseCaseModule {
             getContacts = GetContacts(contactsRepository),
             addContact = AddContact(contactsRepository),
             getPendingContacts = GetPendingContacts(contactsRepository),
-            deleteContactRequest = DeleteContactRequest(contactsRepository),
-            getContactsToAccept =  GetContactsToAccept(contactsRepository)
+            deleteContact = DeleteContact(contactsRepository),
+            getContactsToAccept =  GetContactsToAccept(contactsRepository),
+            acceptContact = AcceptContact(contactsRepository)
         )
     }
 
@@ -33,6 +37,14 @@ object UseCaseModule {
     fun provideUserCases(userRepository: UserRepository): UserUseCases{
         return  UserUseCases(
             searchUser = SearchUser(userRepository)
+        )
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideLoanUseCases(loanRepository: LoanRepository): LoanUseCases{
+        return LoanUseCases(
+            getLoansByContactId = GetLoansByContactId(loanRepository)
         )
     }
 

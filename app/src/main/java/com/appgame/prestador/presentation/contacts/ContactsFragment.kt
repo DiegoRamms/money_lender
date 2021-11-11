@@ -1,34 +1,39 @@
 package com.appgame.prestador.presentation.contacts
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.appgame.prestador.R
 import com.appgame.prestador.databinding.FragmentContactsBinding
 import com.appgame.prestador.domain.StatusResult
+import com.appgame.prestador.domain.contact.Contact
+import com.appgame.prestador.domain.contact.IdContactRequest
 import com.appgame.prestador.presentation.contacts.adapter.ContactsAdapter
 import com.appgame.prestador.presentation.contacts.request_pending.AddContactActivity
 import com.appgame.prestador.utils.*
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class ContactsFragment : Fragment() {
 
-    @Inject
-    lateinit var contactsAdapter: ContactsAdapter
+
+    private lateinit var contactsAdapter: ContactsAdapter
     private val viewModel by viewModels<ContactsViewModel>()
     private var _binding: FragmentContactsBinding? = null
     private val binding get() = _binding
-    private var dialogLoading: LoadingDialogFragment? = null
-    private var dialogError: ErrorDialogFragment? = null
+    private val dialogLoading: LoadingDialogFragment by lazy { LoadingDialogFragment.newInstance() }
+    private val dialogError: ErrorDialogFragment by lazy { ErrorDialogFragment.newInstance() }
+    private var currentList: ArrayList<Contact>? = null
+    private var callback: ClickDetailContact? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,23 +51,54 @@ class ContactsFragment : Fragment() {
         listeners()
     }
 
+    fun updateList(){
+        viewModel.getContacts()
+    }
+
     private fun initView() {
-        binding?.recyclerContacts?.adapter = contactsAdapter
-        binding?.recyclerContacts?.layoutManager = LinearLayoutManager(context)
+
+        val swipeHelper = SwipeHelper { position ->
+            currentList?.let { list ->
+                list[position].idContact?.let { id -> viewModel.deleteContact(IdContactRequest(id)) }
+                list.removeAt(position)
+            }
+            contactsAdapter.notifyItemRemoved(position)
+        }
+
+        val itemTouchHelper = ItemTouchHelper(swipeHelper)
+        contactsAdapter = ContactsAdapter()
+        binding?.recyclerContacts?.let {
+            it.adapter = contactsAdapter
+            it.layoutManager = LinearLayoutManager(requireContext())
+            itemTouchHelper.attachToRecyclerView(it)
+        }
+
     }
 
     private fun listeners() {
         contactsAdapter.setOnItemListener {
-            requireContext().toastShort(it.email)
+            callback?.onClickContact(it)
         }
 
         binding?.fabAddContact?.setOnClickListener {
-            startForResultAddContact.launch(Intent(requireContext(), AddContactActivity::class.java))
-            activity?.overridePendingTransition(R.anim.slide_enter_from_bottom, R.anim.slide_exit_to_top)
+            startForResultAddContact.launch(
+                Intent(
+                    requireContext(),
+                    AddContactActivity::class.java
+                )
+            )
+            activity?.overridePendingTransition(
+                R.anim.slide_enter_from_bottom,
+                R.anim.slide_exit_to_top
+            )
+        }
+
+        binding?.swipe?.setOnRefreshListener {
+            binding?.swipe?.isRefreshing = false
+            viewModel.getContacts()
         }
 
     }
-
 
 
     private fun initObserver() {
@@ -73,28 +109,43 @@ class ContactsFragment : Fragment() {
                 }
                 StatusResult.OK -> {
                     result.data?.let {
-                        contactsAdapter.setContacts(it)
+                        currentList = it as ArrayList<Contact>
+                        contactsAdapter.submitList(currentList)
                     }
 
-                    if (result.data.isNullOrEmpty()){
+                    if (result.data.isNullOrEmpty()) {
                         initEmptyErrorView()
-                    }
+                    } else clearEmptyView()
 
-                    dialogLoading?.dismiss()
                 }
 
                 StatusResult.BAD -> {
-                    dialogLoading?.dismiss()
-                    //context?.simpleDialog(result.message,"Error al intentar ob",{dialog,_ -> dialog.dismiss()})
                     initDialogError(result.message)
                 }
             }
         })
 
+        viewModel.contactDeleted.observe(viewLifecycleOwner, {
+            when (it.status) {
+                StatusResult.LOADING -> initDialog()
+                StatusResult.OK -> {
+                    viewModel.getContacts()
+                    binding?.root?.showShortSnackBar(it.message)
+                }
+                StatusResult.BAD -> {
+                    initDialogError(it.message)
+                    viewModel.getContacts()
+                }
+            }
+        })
+
+        viewModel.dialogLoading.observe(viewLifecycleOwner, {
+            if (!it) dialogLoading.dismiss()
+        })
 
     }
 
-    private fun initEmptyErrorView(isError: Boolean = false){
+    private fun initEmptyErrorView() {
         binding?.incEmptyView?.root?.visibility = View.VISIBLE
         binding?.incEmptyView?.lottieEmptyError?.animate()
         binding?.incEmptyView?.tvEmptyError?.apply {
@@ -104,29 +155,44 @@ class ContactsFragment : Fragment() {
         }
     }
 
+    private fun clearEmptyView() {
+        binding?.incEmptyView?.root?.visibility = View.GONE
+    }
+
     private fun initDialogError(message: String) {
-        dialogError = ErrorDialogFragment.newInstance()
-        dialogError?.setMessage(message)
-        dialogError?.show(parentFragmentManager, ErrorDialogFragment.TAG)
-        dialogError?.clickRetry {
-            viewModel.refresh()
-            Toast.makeText(requireContext(), "Click", Toast.LENGTH_SHORT).show()
-        }
+        dialogError.showDialog(parentFragmentManager, message)
     }
 
     private fun initDialog() {
-        dialogLoading = LoadingDialogFragment.newInstance()
-        dialogLoading?.show(parentFragmentManager, LoadingDialogFragment.TAG)
+        viewModel.setDialogLoadingTrue()
+        dialogLoading.showDialog(parentFragmentManager)
     }
 
     companion object {
         val TAG: String = ContactsFragment::class.java.simpleName
-        fun getInstance() = ContactsFragment()
+        fun newInstance() = ContactsFragment()
     }
 
-
-    private val startForResultAddContact = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            callback = context as ClickDetailContact
+        }catch (e: ClassCastException){}
 
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        dialogLoading.onDetach()
+    }
+
+    private val startForResultAddContact =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+
+        }
+
+
+    interface ClickDetailContact{
+        fun onClickContact(contact: Contact)
+    }
 }

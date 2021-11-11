@@ -2,6 +2,7 @@ package com.appgame.prestador.di
 
 import com.appgame.prestador.data.networkdatasource.*
 import com.appgame.prestador.data.networkdatasource.service.ContactsService
+import com.appgame.prestador.data.networkdatasource.service.LoanService
 import com.appgame.prestador.data.networkdatasource.service.LoginService
 import com.appgame.prestador.data.networkdatasource.service.UserService
 import dagger.Module
@@ -32,6 +33,12 @@ object NetworkDataSource {
     @Singleton
     fun provideUserNetworkDataSource(service: UserService): UserNetworkDataSource {
         return UserNetworkDataSourceImp(service)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLoanNetworkDataSource(service: LoanService): LoanNetworkDataSource {
+        return LoanNetworkDataSourceImp(service)
     }
 
 }

@@ -8,6 +8,11 @@
     android:background="?attr/colorOnBackground"
     android:focusable="true">
 
+    <include
+        android:id="@+id/inc_empty_view"
+        layout="@layout/include_empty_view"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"

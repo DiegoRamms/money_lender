@@ -7,6 +7,7 @@ import com.appgame.prestador.di.IODispatcher
 import com.appgame.prestador.di.MainDispatcher
 import com.appgame.prestador.domain.BaseResult
 import com.appgame.prestador.domain.contact.Contact
+import com.appgame.prestador.domain.contact.IdContactRequest
 import com.appgame.prestador.use_case.contact.ContactUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -26,6 +27,10 @@ class PendingContactViewModel @Inject constructor(
     val contactsToAccept get() = _contactsToAccept
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading get() = _dataLoading
+    private val _contactAccepted = MutableLiveData<BaseResult<Contact>>()
+    val contactAccepted get() = _contactAccepted
+    private val _contactDeleted = MutableLiveData<BaseResult<Contact>>()
+    val contactDeleted get() = _contactDeleted
 
     init {
         getContactsToAccept()
@@ -44,6 +49,35 @@ class PendingContactViewModel @Inject constructor(
             withContext(ioDispatcher) { _contactsToAccept.postValue(useCases.getContactsToAccept()) }
             _dataLoading.value = false
         }
+    }
+
+    fun acceptContact(idContactRequest: IdContactRequest) {
+        _contactAccepted.value = BaseResult.resultLoading()
+        viewModelScope.launch(mainDispatcher + CoroutineExceptionHandler { _, _ ->
+            _contactAccepted.value = BaseResult.resultBad()
+            _dataLoading.value = false
+        }) {
+            withContext(ioDispatcher) {
+                _contactAccepted.postValue(useCases.acceptContact(idContactRequest))
+            }
+            _dataLoading.value = false
+            getContactsToAccept()
+        }
+    }
+
+    fun deleteContact(idContactRequest: IdContactRequest) {
+        _contactDeleted.value = BaseResult.resultLoading()
+        viewModelScope.launch(mainDispatcher + CoroutineExceptionHandler { _, _ ->
+            _contactDeleted.value = BaseResult.resultBad()
+            _dataLoading.value = false
+        }) {
+            withContext(ioDispatcher){
+                _contactDeleted.postValue(useCases.deleteContact(idContactRequest))
+            }
+            _dataLoading.value = false
+            getContactsToAccept()
+        }
+
     }
 
 }

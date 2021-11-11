@@ -19,7 +19,7 @@ class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding
-    private var dialogLoading: LoadingDialogFragment? = null
+    private val dialogLoading: LoadingDialogFragment by lazy { LoadingDialogFragment.newInstance() }
     private val viewModel: LoginViewModel by viewModels()
     private var callback: ClickLogin? = null
     private var isLogout = false
@@ -64,12 +64,12 @@ class LoginFragment : Fragment() {
                 }
                 StatusResult.OK -> {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                    dialogLoading?.dismiss()
+                    dialogLoading.dismiss()
                     callback?.onClickLogin()
                 }
                 StatusResult.BAD -> {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                    dialogLoading?.dismiss()
+                    dialogLoading.dismiss()
                 }
             }
 
@@ -81,19 +81,18 @@ class LoginFragment : Fragment() {
                 }
                 StatusResult.OK -> {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                    dialogLoading?.dismiss()
+                    dialogLoading.dismiss()
                 }
                 StatusResult.BAD -> {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                    dialogLoading?.dismiss()
+                    dialogLoading.dismiss()
                 }
             }
         })
     }
 
     private fun initDialog(){
-        dialogLoading = LoadingDialogFragment.newInstance()
-        dialogLoading?.show(parentFragmentManager,LoadingDialogFragment.TAG)
+        dialogLoading.showDialog(parentFragmentManager)
     }
 
     override fun onAttach(context: Context) {

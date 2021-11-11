@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
 import com.appgame.prestador.R
 import com.appgame.prestador.databinding.ActivityMainBinding
+import com.appgame.prestador.utils.toastLong
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,9 +36,8 @@ class AddContactActivity: AppCompatActivity() {
 
     }
 
-
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
         addContactFragment?.let {
             supportFragmentManager.putFragment(outState, AddContactFragment.TAG,it)
         }

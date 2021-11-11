@@ -5,10 +5,11 @@ import com.appgame.prestador.domain.contact.*
 
 interface  ContactsRepository {
 
-    suspend fun getContacts(): ContactsResponse
+    suspend fun getContacts(): BaseResult<List<Contact>>
     suspend fun addContact(addContactRequest: AddContactRequest): BaseResult<Contact>
     suspend fun getPendingContacts(): BaseResult<List<Contact>>
-    suspend fun deleteContactRequest(contactRequestRequest: DeleteContactRequestRequest): BaseResult<Contact>
+    suspend fun deleteContactRequest(idContactRequest: IdContactRequest): BaseResult<Contact>
     suspend fun getContactsToAccept(): BaseResult<List<Contact>>
+    suspend fun acceptContact(idContactRequest: IdContactRequest): BaseResult<Contact>
 
 }

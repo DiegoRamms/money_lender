@@ -9,7 +9,7 @@ import com.appgame.prestador.di.MainDispatcher
 import com.appgame.prestador.use_case.contact.ContactUseCases
 import com.appgame.prestador.domain.BaseResult
 import com.appgame.prestador.domain.contact.Contact
-import com.appgame.prestador.domain.contact.DeleteContactRequestRequest
+import com.appgame.prestador.domain.contact.IdContactRequest
 import com.appgame.prestador.domain.user.SearchUserRequest
 import com.appgame.prestador.domain.user.User
 import com.appgame.prestador.use_case.user.UserUseCases
@@ -95,7 +95,7 @@ class AddContactViewModel @Inject constructor(
     }
 
 
-    fun deleteContact(deleteContactRequest: DeleteContactRequestRequest) {
+    fun deleteContact(idContactRequest: IdContactRequest) {
         _contactDeleted.value = BaseResult.resultLoading()
         viewModelScope.launch(mainDispatcher + CoroutineExceptionHandler { _, tr ->
             _contactDeleted.value = BaseResult.resultBad(tr.message + ",")
@@ -103,7 +103,7 @@ class AddContactViewModel @Inject constructor(
 
         }) {
             withContext(ioDispatcher) {
-                _contactDeleted.postValue(contactUseCases.deleteContactRequest(deleteContactRequest))
+                _contactDeleted.postValue(contactUseCases.deleteContact(idContactRequest))
             }
             _dismissDialog.value = true
             getPendingContacts()
