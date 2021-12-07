@@ -1,11 +1,9 @@
 package com.appgame.prestador.presentation.contacts.request_pending
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,8 +11,7 @@ import com.appgame.prestador.R
 import com.appgame.prestador.databinding.FragmentAddContactBinding
 import com.appgame.prestador.domain.StatusResult
 import com.appgame.prestador.domain.contact.AddContactRequest
-import com.appgame.prestador.domain.contact.DeleteContactRequestRequest
-import com.appgame.prestador.domain.contact.IdContactRequest
+import com.appgame.prestador.domain.contact.ContactIdRequest
 import com.appgame.prestador.domain.user.SearchUserRequest
 import com.appgame.prestador.presentation.contacts.adapter.ContactsRequestPendingAdapter
 import com.appgame.prestador.utils.*
@@ -72,7 +69,7 @@ class AddContactFragment : Fragment() {
 
 
         contactsRequestPendingAdapter.setOnItemClickListener { contact ->
-            contact.idContact?.let { viewModel.deleteContact(IdContactRequest(it)) }
+            contact.contactId?.let { viewModel.deleteContact(ContactIdRequest(it)) }
         }
     }
 

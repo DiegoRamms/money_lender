@@ -37,8 +37,8 @@ class ContactsRepositoryImp(private val contactsNetworkDataSource: ContactsNetwo
         }
     }
 
-    override suspend fun deleteContactRequest(idContactRequest: IdContactRequest): BaseResult<Contact> {
-        val response = contactsNetworkDataSource.deleteContactRequest(idContactRequest)
+    override suspend fun deleteContactRequest(contactIdRequest: ContactIdRequest): BaseResult<Contact> {
+        val response = contactsNetworkDataSource.deleteContactRequest(contactIdRequest)
         return try {
             BaseResult.resultOK(response.msg,null,response.code)
         }catch (e: Exception){
@@ -56,8 +56,8 @@ class ContactsRepositoryImp(private val contactsNetworkDataSource: ContactsNetwo
         }
     }
 
-    override suspend fun acceptContact(idContactRequest: IdContactRequest): BaseResult<Contact> {
-        val response = contactsNetworkDataSource.acceptContact(idContactRequest)
+    override suspend fun acceptContact(contactIdRequest: ContactIdRequest): BaseResult<Contact> {
+        val response = contactsNetworkDataSource.acceptContact(contactIdRequest)
         return try {
             val contact = response.contact?.let { ContactDTOMapper.mapToDomainModel(it) }
             BaseResult.resultOK(response.msg,contact,response.code)

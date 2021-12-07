@@ -1,21 +1,23 @@
 package com.appgame.prestador.presentation.contacts.detail
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.appgame.prestador.databinding.FragmentContactDetailBinding
 import com.appgame.prestador.domain.StatusResult
 import com.appgame.prestador.domain.contact.Contact
-import com.appgame.prestador.domain.contact.IdContactRequest
-import com.appgame.prestador.presentation.contacts.adapter.ContactsAdapter
-import com.appgame.prestador.utils.CONTACT
-import com.appgame.prestador.utils.ErrorDialogFragment
-import com.appgame.prestador.utils.LoadingDialogFragment
-import com.appgame.prestador.utils.toastLong
+import com.appgame.prestador.domain.user.UserIdRequest
+import com.appgame.prestador.presentation.loan.adapter.LoanAdapter
+import com.appgame.prestador.presentation.loan.create_loan.CreateLoanActivity
+import com.appgame.prestador.presentation.payment.PaymentsActivity
+import com.appgame.prestador.utils.*
 import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.abs
@@ -26,12 +28,11 @@ class ContactDetailFragment : Fragment() {
 
     private var _binding: FragmentContactDetailBinding? = null
     private val binding get() = _binding
-    private val contactsAdapter = ContactsAdapter()
+    private val loanAdapter = LoanAdapter()
     private var contact: Contact? = null
     private val dialogLoading: LoadingDialogFragment by lazy { LoadingDialogFragment.newInstance() }
     private val dialogError: ErrorDialogFragment by lazy { ErrorDialogFragment.newInstance() }
     private val viewModel: ContactDetailViewModel by viewModels()
-
 
 
     override fun onCreateView(
@@ -48,6 +49,7 @@ class ContactDetailFragment : Fragment() {
 
         contact = requireArguments().getParcelable(CONTACT)
         initView()
+        initListeners()
         initObservers()
 
     }
@@ -57,13 +59,11 @@ class ContactDetailFragment : Fragment() {
         contact?.let {
             binding?.tvLetterBig?.text = it.name[0].toString()
             binding?.tvLetterMini?.text = it.name[0].toString()
-            it.idContact?.let { id ->  viewModel.getLoansByContactId(IdContactRequest(id))}
-
+            viewModel.getLoansByContactId(UserIdRequest(it.userId))
         }
-        binding?.tvCount?.text = "Prestamos: 0"
         binding?.rvLoan?.let {
-            it.adapter = contactsAdapter
-            it.layoutManager = LinearLayoutManager(requireContext())
+            it.adapter = loanAdapter
+            it.layoutManager = GridLayoutManager(requireContext(), 2)
         }
         binding?.appBarLayout?.addOnOffsetChangedListener(
             AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
@@ -74,11 +74,36 @@ class ContactDetailFragment : Fragment() {
             })
     }
 
-    private fun initObservers(){
-        viewModel.loan.observe(viewLifecycleOwner,{
-            when(it.status){
+    private fun initListeners() {
+        binding?.chipAddLoan?.setOnClickListener {
+            startForResultCreateLoan.launch(
+                Intent(
+                    requireContext(),
+                    CreateLoanActivity::class.java
+                ).apply {
+                    putExtra(CONTACT,contact)
+                }
+            )
+        }
+
+        loanAdapter.clickLoanListener {
+            Intent(requireContext(),PaymentsActivity::class.java)
+                .apply {
+                    putExtra(LOAN,it)
+                    startActivity(this)
+                }
+        }
+    }
+
+    private fun initObservers() {
+        viewModel.loan.observe(viewLifecycleOwner, {
+            when (it.status) {
                 StatusResult.LOADING -> initDialog()
-                StatusResult.OK -> requireContext().toastLong(it.data.toString())
+                StatusResult.OK -> {
+                    binding?.tvCount?.text = "Prestamos: ${it.data?.totalLoans}"
+                    binding?.tvCountDebts?.text = "Duedas: ${it.data?.totalDebts}"
+                    loanAdapter.submitList(it.data?.loans)
+                }
                 StatusResult.BAD -> initDialogError(it.message)
             }
         })
@@ -144,4 +169,12 @@ class ContactDetailFragment : Fragment() {
         dialogLoading.showDialog(parentFragmentManager)
     }
 
+    private val startForResultCreateLoan =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK) {
+                contact?.let { contact ->
+                    viewModel.getLoansByContactId(UserIdRequest(contact.userId))
+                }
+            }
+        }
 }

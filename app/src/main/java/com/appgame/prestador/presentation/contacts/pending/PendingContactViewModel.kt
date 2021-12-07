@@ -7,7 +7,7 @@ import com.appgame.prestador.di.IODispatcher
 import com.appgame.prestador.di.MainDispatcher
 import com.appgame.prestador.domain.BaseResult
 import com.appgame.prestador.domain.contact.Contact
-import com.appgame.prestador.domain.contact.IdContactRequest
+import com.appgame.prestador.domain.contact.ContactIdRequest
 import com.appgame.prestador.use_case.contact.ContactUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -51,28 +51,28 @@ class PendingContactViewModel @Inject constructor(
         }
     }
 
-    fun acceptContact(idContactRequest: IdContactRequest) {
+    fun acceptContact(contactIdRequest: ContactIdRequest) {
         _contactAccepted.value = BaseResult.resultLoading()
         viewModelScope.launch(mainDispatcher + CoroutineExceptionHandler { _, _ ->
             _contactAccepted.value = BaseResult.resultBad()
             _dataLoading.value = false
         }) {
             withContext(ioDispatcher) {
-                _contactAccepted.postValue(useCases.acceptContact(idContactRequest))
+                _contactAccepted.postValue(useCases.acceptContact(contactIdRequest))
             }
             _dataLoading.value = false
             getContactsToAccept()
         }
     }
 
-    fun deleteContact(idContactRequest: IdContactRequest) {
+    fun deleteContact(contactIdRequest: ContactIdRequest) {
         _contactDeleted.value = BaseResult.resultLoading()
         viewModelScope.launch(mainDispatcher + CoroutineExceptionHandler { _, _ ->
             _contactDeleted.value = BaseResult.resultBad()
             _dataLoading.value = false
         }) {
             withContext(ioDispatcher){
-                _contactDeleted.postValue(useCases.deleteContact(idContactRequest))
+                _contactDeleted.postValue(useCases.deleteContact(contactIdRequest))
             }
             _dataLoading.value = false
             getContactsToAccept()

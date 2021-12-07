@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.appgame.prestador.R
 import com.appgame.prestador.databinding.FragmentPendingContactBinding
 import com.appgame.prestador.domain.StatusResult
-import com.appgame.prestador.domain.contact.IdContactRequest
+import com.appgame.prestador.domain.contact.ContactIdRequest
 import com.appgame.prestador.presentation.contacts.adapter.ContactsPendingAdapter
 import com.appgame.prestador.utils.ErrorDialogFragment
 import com.appgame.prestador.utils.LoadingDialogFragment
@@ -56,14 +56,14 @@ class PendingContactFragment : Fragment() {
 
     private fun initListener() {
         contactsPendingAdapter?.addOnclickListener { contact ->
-            contact.idContact?.let {
-                viewModel.acceptContact(IdContactRequest(it))
+            contact.contactId?.let {
+                viewModel.acceptContact(ContactIdRequest(it))
                 activity?.setResult(Activity.RESULT_OK)
             }
         }
         contactsPendingAdapter?.deleteRequestClickListener { contact ->
-            contact.idContact?.let {
-                viewModel.deleteContact(IdContactRequest(it))
+            contact.contactId?.let {
+                viewModel.deleteContact(ContactIdRequest(it))
             }
         }
     }

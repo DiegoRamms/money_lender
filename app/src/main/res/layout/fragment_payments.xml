@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_amount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/voces"
+            android:textAlignment="center"
+            android:textAppearance="@style/textItemPrimary"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            tools:text="$500" />
+
+        <TextView
+            android:id="@+id/tv_interest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/abel"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@id/tv_amount"
+            app:layout_constraintStart_toStartOf="@id/tv_amount"
+            app:layout_constraintTop_toBottomOf="@id/tv_amount"
+            tools:text="%10 de interes" />
+
+        <ProgressBar
+            android:id="@+id/progress_horizontal"
+            app:layout_constraintTop_toBottomOf="@id/tv_interest"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="20dp"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:progress="20"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tv_paid_out"
+            tools:text="pagado: $500 de $600"
+            app:layout_constraintTop_toBottomOf="@id/progress_horizontal"
+            android:fontFamily="@font/abel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_baseline_info_24"
+            android:drawableTint="?attr/colorAccent"
+            android:visibility="gone"
+            android:textStyle="bold"
+            android:fontFamily="@font/voces"
+            android:textSize="19sp"
+            android:drawablePadding="5dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            tools:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@id/tv_paid_out"
+            tools:text="Se paga hoy mismo en la noche" />
+
+        <TextView
+            android:layout_marginTop="15dp"
+            android:id="@+id/tv_loan_plus_interest_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total interes mas deuda"
+            android:textSize="17sp"
+            android:fontFamily="@font/voces"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_comment" />
+
+        <TextView
+            android:id="@+id/tv_loan_plus_interest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:textSize="17sp"
+            android:fontFamily="@font/voces"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/tv_loan_plus_interest_info"
+            app:layout_constraintStart_toEndOf="@id/tv_loan_plus_interest_info"
+            app:layout_constraintTop_toTopOf="@id/tv_loan_plus_interest_info"
+            tools:text="$550" />
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:id="@+id/tv_next_payment_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Siguiente pago: "
+            android:textSize="17sp"
+            android:fontFamily="@font/voces"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_loan_plus_interest_info" />
+
+        <TextView
+            android:id="@+id/tv_next_payment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:textSize="17sp"
+            android:fontFamily="@font/voces"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/tv_next_payment_info"
+            app:layout_constraintStart_toEndOf="@id/tv_next_payment_info"
+            app:layout_constraintTop_toTopOf="@id/tv_next_payment_info"
+            tools:text="$550 el 20/Nov/2021" />
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:id="@+id/tv_payments_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pagos:"
+            android:textSize="17sp"
+            android:fontFamily="@font/voces"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_next_payment_info" />
+
+        <TextView
+            android:id="@+id/tv_payments_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/voces"
+            app:layout_constraintBottom_toBottomOf="@id/tv_payments_info"
+            app:layout_constraintStart_toEndOf="@id/tv_payments_info"
+            app:layout_constraintTop_toTopOf="@id/tv_payments_info"
+            tools:text="Semanales" />
+
+        <TextView
+            android:id="@+id/tv_type_interest_info"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_height="wrap_content"
+            android:text="tipo de interes:"
+            android:fontFamily="@font/voces"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_payments_time" />
+
+        <TextView
+            android:id="@+id/tv_type_interest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/voces"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/tv_type_interest_info"
+            app:layout_constraintStart_toEndOf="@id/tv_type_interest_info"
+            app:layout_constraintTop_toTopOf="@id/tv_type_interest_info"
+            tools:text="Simnple" />
+        <TextView
+            android:id="@+id/tv_interest_time_info"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_height="wrap_content"
+            android:text="interes:"
+            android:fontFamily="@font/voces"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_type_interest_info" />
+
+        <TextView
+            android:id="@+id/tv_interest_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/voces"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/tv_interest_time_info"
+            app:layout_constraintStart_toEndOf="@id/tv_interest_time_info"
+            app:layout_constraintTop_toTopOf="@id/tv_interest_time_info"
+            tools:text="Anual" />
+
+
+        <TextView
+            android:id="@+id/tv_date_start_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prestamo realizado el"
+            android:fontFamily="@font/voces"
+            android:textSize="17sp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_interest_time_info" />
+
+        <TextView
+            android:id="@+id/tv_date_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/voces"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/tv_date_start_info"
+            app:layout_constraintStart_toEndOf="@id/tv_date_start_info"
+            app:layout_constraintTop_toBottomOf="@id/tv_date_start_info"
+            tools:text="30/Nov/2021" />
+        <TextView
+            android:id="@+id/tv_date_limit_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Limite de pago"
+            android:fontFamily="@font/voces"
+            android:textSize="17sp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintHorizontal_weight="5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_date_start_info" />
+
+        <TextView
+            android:id="@+id/tv_date_limit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/voces"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/tv_date_limit_info"
+            app:layout_constraintBottom_toBottomOf="@id/tv_date_limit_info"
+            app:layout_constraintStart_toEndOf="@id/tv_date_limit_info"
+            tools:text="1/Dic/2021"  />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include
+        android:id="@+id/bottom_sheet_layout_include"
+        layout="@layout/bottom_sheet_payments" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

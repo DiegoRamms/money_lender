@@ -17,15 +17,15 @@ class ContactsNetworkDataSourceImp @Inject constructor(private val service: Cont
         return service.getPendingContacts()
     }
 
-    override suspend fun deleteContactRequest(idContactRequest: IdContactRequest): ContactResponse {
-        return service.deleteContactRequest(idContactRequest)
+    override suspend fun deleteContactRequest(contactIdRequest: ContactIdRequest): ContactResponse {
+        return service.deleteContactRequest(contactIdRequest)
     }
 
     override suspend fun getContactsToAccept(): ContactsResponse {
         return service.getContactsToAccept()
     }
 
-    override suspend fun acceptContact(idContactRequest: IdContactRequest): ContactResponse {
-        return service.acceptContact(idContactRequest)
+    override suspend fun acceptContact(contactIdRequest: ContactIdRequest): ContactResponse {
+        return service.acceptContact(contactIdRequest)
     }
 }

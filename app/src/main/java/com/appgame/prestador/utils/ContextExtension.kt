@@ -58,3 +58,7 @@ fun Context.simpleDialogSessionExpired(eventDismiss: ((DialogInterface) -> Unit)
     dialog.show()
 }
 
+public inline fun ifNotNull(){
+
+}
+

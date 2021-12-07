@@ -4,6 +4,7 @@ import com.appgame.prestador.domain.repository.ContactsRepository
 import com.appgame.prestador.domain.repository.LoanRepository
 import com.appgame.prestador.domain.repository.UserRepository
 import com.appgame.prestador.use_case.contact.*
+import com.appgame.prestador.use_case.loan.CreateLoan
 import com.appgame.prestador.use_case.loan.GetLoansByContactId
 import com.appgame.prestador.use_case.loan.LoanUseCases
 import com.appgame.prestador.use_case.user.SearchUser
@@ -44,7 +45,8 @@ object UseCaseModule {
     @ViewModelScoped
     fun provideLoanUseCases(loanRepository: LoanRepository): LoanUseCases{
         return LoanUseCases(
-            getLoansByContactId = GetLoansByContactId(loanRepository)
+            getLoansByContactId = GetLoansByContactId(loanRepository),
+            createLoan = CreateLoan(loanRepository)
         )
     }
 

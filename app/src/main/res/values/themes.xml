@@ -17,6 +17,8 @@
 
         <item name="android:windowContentTransitions">true</item>
 
+        <item name="sliderStyle">@style/Widget.App.Slider</item>
+
     </style>
 
 
@@ -44,6 +46,36 @@
     </style>
 
 
+    <style name="CustomCardViewShapeStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ShapeCardView</item>
+    </style>
+
+    <style name="ShapeCardView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">8dp</item>
+        <item name="cornerSizeBottomLeft">8dp</item>
+        <item name="cornerSizeTopRight">8dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+
+    </style>
+
+    <style name="CustomCardViewShapeStyle2" parent="Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ShapeCardView2</item>
+    </style>
+
+    <style name="ShapeCardView2">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">28dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeTopRight">28dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+
+    </style>
+
+    <style name="ChipActionStyle" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="android:colorBackground">@color/transparent_white</item>
+        <item name="fontFamily">@font/voces</item>
+    </style>
 
 
     <style name="principal_edit" parent="Widget.AppCompat.EditText">
@@ -53,6 +85,7 @@
         <item name="android:paddingStart">20dp</item>
         <item name="android:paddingEnd">20dp</item>
         <item name="android:height">50dp</item>
+        <item name="minHeight">50dp</item>
         <item name="android:maxLines">1</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textColorHint">@color/hint</item>
@@ -60,12 +93,49 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="big_edit" parent="principal_edit">
+        <item name="android:background">@drawable/edt_big_bg</item>
+        <item name="android:minHeight">100dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:gravity">top</item>
+    </style>
+
+    <style name="menu_list" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu">
+        <item name="android:background">@drawable/edit_login_bg</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/hint</item>
+        <item name="android:fontFamily">@font/hammersmith_one</item>
+    </style>
 
     <style name="DialogBottomSheet" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="android:windowIsFloating">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
+
+    <style name="textItemPrimary">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/black_light</item>
+        <item name="fontFamily">@font/voces</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <style name="Widget.App.Slider" parent="Widget.MaterialComponents.Slider">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Slider</item>
+        <item name="labelStyle">@style/Widget.App.Tooltip</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Slider" parent="">
+        <item name="colorPrimary">@color/teal_200</item>
+        <item name="colorOnPrimary">@color/white_light</item>
+        <item name="colorOnSurface">@color/black_light</item>
+    </style>
+
+    <style name="Widget.App.Tooltip" parent="Widget.MaterialComponents.Tooltip">
+        <item name="backgroundTint">@color/black_light</item>
+    </style>
+
 
 
 </resources>

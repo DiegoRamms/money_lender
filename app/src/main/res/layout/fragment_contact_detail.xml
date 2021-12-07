@@ -57,19 +57,35 @@
                     android:layout_marginStart="20dp"
                     android:fontFamily="@font/baloo_chettan"
                     android:textColor="@color/white"
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     android:layout_marginTop="10dp"
                     app:layout_constraintStart_toEndOf="@id/circular_view"
                     app:layout_constraintTop_toTopOf="@id/circular_view"
                     tools:text="Prestamos: 0" />
 
+                <TextView
+                    android:id="@+id/tv_count_debts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/baloo_chettan"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintStart_toEndOf="@id/tv_count"
+                    app:layout_constraintTop_toTopOf="@id/circular_view"
+                    tools:text="Deudas: 0" />
+
                 <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_add_loan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/voces"
                     android:textSize="20sp"
+                    android:textColor="@color/white"
+                    app:chipBackgroundColor="?attr/colorSecondary"
                     android:text="Agregar Presamo"
-                    style="@style/Widget.MaterialComponents.Chip.Action"
+                    style="@style/ChipActionStyle"
                     app:chipIcon="@drawable/ic_baseline_add_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@id/tv_count"

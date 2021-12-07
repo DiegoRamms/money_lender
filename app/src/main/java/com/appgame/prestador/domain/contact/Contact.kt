@@ -4,24 +4,26 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class Contact(
+    val userId: String,
     val code: String,
     val email: String,
     val name: String,
-    val idContact: String? = null
+    val contactId: String? = null
 ):  Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
+        parcel.readString()!!,
         parcel.readString()
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(userId)
         parcel.writeString(code)
         parcel.writeString(email)
         parcel.writeString(name)
-        parcel.writeString(idContact)
+        parcel.writeString(contactId)
     }
 
     override fun describeContents(): Int {

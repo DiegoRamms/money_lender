@@ -1,6 +1,5 @@
 package com.appgame.prestador.presentation.contacts
 
-
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,7 +8,7 @@ import com.appgame.prestador.di.MainDispatcher
 import com.appgame.prestador.use_case.contact.ContactUseCases
 import com.appgame.prestador.domain.BaseResult
 import com.appgame.prestador.domain.contact.Contact
-import com.appgame.prestador.domain.contact.IdContactRequest
+import com.appgame.prestador.domain.contact.ContactIdRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -49,7 +48,7 @@ class ContactsViewModel @Inject constructor(
         }
     }
 
-    fun deleteContact(idContactRequest: IdContactRequest) {
+    fun deleteContact(contactIdRequest: ContactIdRequest) {
         _contactDeleted.value = BaseResult.resultLoading()
         viewModelScope.launch(mainDispatcher + CoroutineExceptionHandler { _, _ ->
             _contactDeleted.value = BaseResult.resultBad()
@@ -57,7 +56,7 @@ class ContactsViewModel @Inject constructor(
         }) {
 
            withContext(mainDispatcher){
-              _contactDeleted.value= contactsUseCases.deleteContact(idContactRequest)
+              _contactDeleted.value= contactsUseCases.deleteContact(contactIdRequest)
            }
             _dialogLoading.value = false
 

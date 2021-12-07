@@ -6,8 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.appgame.prestador.di.IODispatcher
 import com.appgame.prestador.di.MainDispatcher
 import com.appgame.prestador.domain.BaseResult
-import com.appgame.prestador.domain.contact.IdContactRequest
+import com.appgame.prestador.domain.contact.ContactIdRequest
 import com.appgame.prestador.domain.loan.Loan
+import com.appgame.prestador.domain.loan.LoansDetail
+import com.appgame.prestador.domain.user.UserIdRequest
 import com.appgame.prestador.use_case.loan.LoanUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -23,21 +25,21 @@ class ContactDetailViewModel @Inject constructor(
     @IODispatcher private val ioDispatcher: CoroutineContext,
 ): ViewModel() {
 
-    private val _loans = MutableLiveData<BaseResult<List<Loan>>>()
+    private val _loans = MutableLiveData<BaseResult<LoansDetail>>()
     val loan get() = _loans
     private val _dialogLoading = MutableLiveData<Boolean>()
     val dialogLoading get() = _dialogLoading
 
 
 
-    fun getLoansByContactId(idContactRequest: IdContactRequest){
-        _dialogLoading.value = true
+    fun getLoansByContactId(userIdRequest: UserIdRequest){
+        _loans.value = BaseResult.resultLoading()
         viewModelScope.launch(mainDispatcher + CoroutineExceptionHandler { _, _ ->
             _loans.value = BaseResult.resultBad()
             _dialogLoading.value = false
         }) {
             withContext(ioDispatcher){
-                _loans.postValue(loanUseCases.getLoansByContactId(idContactRequest))
+                _loans.postValue(loanUseCases.getLoansByContactId(userIdRequest))
             }
             _dialogLoading.value = false
         }

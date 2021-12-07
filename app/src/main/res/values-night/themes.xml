@@ -17,6 +17,9 @@
 
 
         <item name="android:windowContentTransitions">true</item>
+
+
+        <item name="sliderStyle">@style/Widget.App.Slider</item>
     </style>
 
 
@@ -51,6 +54,28 @@
         <item name="android:fontFamily">@font/hammersmith_one</item>
         <item name="errorIconTint">@color/red_warning</item>
         <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="big_edit" parent="principal_edit">
+        <item name="android:background">@drawable/edt_big_bg</item>
+        <item name="android:minHeight">100dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:gravity">top</item>
+    </style>
+
+    <style name="Widget.App.Slider" parent="Widget.MaterialComponents.Slider">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Slider</item>
+        <item name="labelStyle">@style/Widget.App.Tooltip</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Slider" parent="">
+        <item name="colorPrimary">@color/teal_200</item>
+        <item name="colorOnPrimary">@color/white_light</item>
+        <item name="colorOnSurface">@color/black_light</item>
+    </style>
+
+    <style name="Widget.App.Tooltip" parent="Widget.MaterialComponents.Tooltip">
+        <item name="backgroundTint">@color/black_light</item>
     </style>
 
 </resources>

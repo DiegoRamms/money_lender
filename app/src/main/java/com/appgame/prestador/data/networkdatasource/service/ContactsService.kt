@@ -2,7 +2,6 @@ package com.appgame.prestador.data.networkdatasource.service
 
 import com.appgame.prestador.domain.contact.*
 import retrofit2.http.Body
-import retrofit2.http.DELETE
 import retrofit2.http.POST
 
 interface ContactsService {
@@ -16,11 +15,11 @@ interface ContactsService {
     suspend fun getPendingContacts(): ContactsResponse
 
     @POST("contact/cancelRequest")
-    suspend fun deleteContactRequest(@Body idContactRequest: IdContactRequest): ContactResponse
+    suspend fun deleteContactRequest(@Body contactIdRequest: ContactIdRequest): ContactResponse
 
     @POST("contact/listToAccept")
     suspend fun getContactsToAccept(): ContactsResponse
 
     @POST("contact/accept")
-    suspend fun acceptContact(@Body idContactRequest: IdContactRequest): ContactResponse
+    suspend fun acceptContact(@Body contactIdRequest: ContactIdRequest): ContactResponse
 }

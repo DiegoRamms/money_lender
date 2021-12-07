@@ -5,6 +5,5 @@ import com.google.gson.annotations.SerializedName
 
 data class LoansResponse constructor(
     @SerializedName("data")
-    val loans: List<LoanDTO>
-    ) : BaseResponse() {
-}
+    val loansDetailDTO: LoansDetailDTO
+    ) : BaseResponse()
