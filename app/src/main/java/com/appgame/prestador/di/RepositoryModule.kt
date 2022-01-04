@@ -1,18 +1,9 @@
 package com.appgame.prestador.di
 
 import com.appgame.prestador.data.localdatasource.LoginLocalDataSource
-import com.appgame.prestador.data.networkdatasource.ContactsNetworkDataSource
-import com.appgame.prestador.data.networkdatasource.LoanNetworkDataSource
-import com.appgame.prestador.data.networkdatasource.LoginNetworkDataSource
-import com.appgame.prestador.data.networkdatasource.UserNetworkDataSource
-import com.appgame.prestador.domain.repository.ContactsRepository
-import com.appgame.prestador.data.repository.ContactsRepositoryImp
-import com.appgame.prestador.data.repository.LoanRepositoryImp
-import com.appgame.prestador.domain.repository.LoginRepository
-import com.appgame.prestador.data.repository.LoginRepositoryImp
-import com.appgame.prestador.data.repository.UserRepositoryImp
-import com.appgame.prestador.domain.repository.LoanRepository
-import com.appgame.prestador.domain.repository.UserRepository
+import com.appgame.prestador.data.networkdatasource.*
+import com.appgame.prestador.data.repository.*
+import com.appgame.prestador.domain.repository.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,6 +39,12 @@ object RepositoryModule {
     @ViewModelScoped
     fun provideLoanRepository(loanNetworkDataSource: LoanNetworkDataSource): LoanRepository{
         return LoanRepositoryImp(loanNetworkDataSource)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun providePaymentRepository(paymentNetworkDataSource: PaymentNetworkDataSource): PaymentRepository{
+        return PaymentRepositoryImp(paymentNetworkDataSource)
     }
 
 }

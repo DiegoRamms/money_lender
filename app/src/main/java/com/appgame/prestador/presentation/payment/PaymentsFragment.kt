@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.appgame.prestador.R
 import com.appgame.prestador.databinding.FragmentPaymentsBinding
+import com.appgame.prestador.domain.StatusResult
 import com.appgame.prestador.domain.contact.Contact
 import com.appgame.prestador.domain.loan.Loan
+import com.appgame.prestador.domain.loan.LoanIdRequest
 import com.appgame.prestador.presentation.contacts.adapter.ContactsAdapter
 import com.appgame.prestador.utils.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -23,6 +26,9 @@ class PaymentsFragment : Fragment() {
     private var _binding: FragmentPaymentsBinding? = null
     private val binding get() = _binding
     private var loan: Loan? = null
+    private val dialogLoading by lazy { LoadingDialogFragment.newInstance() }
+    private val dialogError by lazy { ErrorDialogFragment.newInstance() }
+    private val viewModel: PaymentsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +45,11 @@ class PaymentsFragment : Fragment() {
         loan = requireArguments().getParcelable(LOAN)
         initView()
         initListeners()
+        initObservers()
+        loan?.loanId?.let {
+            viewModel.getLoanPaymentDetail(LoanIdRequest(loanId = it))
+        }
+
 
         val adapterC = ContactsAdapter()
         binding?.bottomSheetLayoutInclude?.rvPayments?.apply {
@@ -122,6 +133,30 @@ class PaymentsFragment : Fragment() {
         }
     }
 
+    private fun initObservers(){
+        viewModel.paymentDetail.observe(viewLifecycleOwner, { response ->
+            when(response.status){
+                StatusResult.LOADING -> initDialog()
+                StatusResult.OK -> {response?.data?.let { paymentInfo ->
+                    binding?.tvPaidOut?.text = requireContext().getString(R.string.progress_pay_out,paymentInfo.progressPayText)
+                    binding?.tvNextPayment?.text = paymentInfo.nextPayTime
+                }}
+                StatusResult.BAD -> {
+                    requireContext().simpleDialog(message = response.message)//initDialogError(response.message)
+                }
+            }
+        })
+    }
+
+    private fun initDialog() {
+        viewModel.setDialogLoadingTrue()
+        dialogLoading.showDialog(parentFragmentManager)
+    }
+
+    private fun initDialogError(message: String) {
+        if (dialogError.isAdded) dialogError.onDetach()
+        dialogError.showDialog(parentFragmentManager, message)
+    }
 
     companion object {
         val TAG: String = PaymentsFragment::class.java.simpleName

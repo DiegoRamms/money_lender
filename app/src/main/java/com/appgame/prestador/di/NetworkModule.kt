@@ -4,10 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.appgame.prestador.data.localdatasource.LoginLocalDataSource
-import com.appgame.prestador.data.networkdatasource.service.ContactsService
-import com.appgame.prestador.data.networkdatasource.service.LoanService
-import com.appgame.prestador.data.networkdatasource.service.LoginService
-import com.appgame.prestador.data.networkdatasource.service.UserService
+import com.appgame.prestador.data.networkdatasource.service.*
 import com.appgame.prestador.utils.CODE_SESSION_EXPIRED
 import com.appgame.prestador.utils.SessionExpiredActivity
 import dagger.Module
@@ -35,9 +32,9 @@ object NetworkModule {
         localDataSource: LoginLocalDataSource
     ): OkHttpClient {
         return OkHttpClient.Builder()
-            .readTimeout(2,TimeUnit.SECONDS)
-            .writeTimeout(2,TimeUnit.SECONDS)
-            .connectTimeout(2,TimeUnit.SECONDS)
+            .readTimeout(10,TimeUnit.SECONDS)
+            .writeTimeout(10,TimeUnit.SECONDS)
+            .connectTimeout(10,TimeUnit.SECONDS)
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .addInterceptor { chain ->
                 val request = chain.request()
@@ -69,7 +66,7 @@ object NetworkModule {
     @Singleton
     fun providesRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://192.168.1.116:8080")
+            .baseUrl("http://192.168.100.94:8080")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -97,5 +94,11 @@ object NetworkModule {
     @Singleton
     fun provideLoanService(retrofit: Retrofit): LoanService{
         return retrofit.create(LoanService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providePaymentService(retrofit: Retrofit): PaymentService{
+        return retrofit.create(PaymentService::class.java)
     }
 }

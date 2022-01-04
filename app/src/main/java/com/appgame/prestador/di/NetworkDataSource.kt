@@ -1,10 +1,7 @@
 package com.appgame.prestador.di
 
 import com.appgame.prestador.data.networkdatasource.*
-import com.appgame.prestador.data.networkdatasource.service.ContactsService
-import com.appgame.prestador.data.networkdatasource.service.LoanService
-import com.appgame.prestador.data.networkdatasource.service.LoginService
-import com.appgame.prestador.data.networkdatasource.service.UserService
+import com.appgame.prestador.data.networkdatasource.service.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,4 +38,9 @@ object NetworkDataSource {
         return LoanNetworkDataSourceImp(service)
     }
 
+    @Provides
+    @Singleton
+    fun providePaymentNetworkDataSource(service: PaymentService): PaymentNetworkDataSource{
+        return PaymentNetworkDataSourceImp(service)
+    }
 }
