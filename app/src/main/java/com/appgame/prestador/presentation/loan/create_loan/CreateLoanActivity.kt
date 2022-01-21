@@ -25,7 +25,7 @@ class CreateLoanActivity: AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        window.statusBarColor = ContextCompat.getColor(applicationContext,R.color.purple_200)
+        window.statusBarColor = ContextCompat.getColor(applicationContext,R.color.salmon)
 
         if (savedInstanceState == null){
             createLoanFragment = CreateLoanFragment.newInstance()

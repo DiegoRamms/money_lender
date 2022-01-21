@@ -8,4 +8,5 @@ sealed class FormError(val description: String? = null){
 //Form Create Loan
 class AmountError(description: String): FormError.Error(description)
 class DateError(description: String) : FormError.Error(description)
-class TypeInterest(description: String) : FormError.Error(description)
+class InterestTime(description: String): FormError.Error(description)
+class PaymentsTime(description: String): FormError.Error(description)

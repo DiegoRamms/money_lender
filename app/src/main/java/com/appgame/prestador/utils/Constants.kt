@@ -12,6 +12,7 @@ const val CODE_NO_INFORMATION_EXISTS = 5
 //Bundle KEYS
 const val CONTACT = "CONTACT"
 const val LOAN = "LOAN"
+const val LOAN_ID = "LOAN_ID"
 
 //PAY TYPE
 const val YEARLY = "YEARLY"

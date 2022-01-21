@@ -8,10 +8,7 @@ import com.appgame.prestador.di.MainDispatcher
 import com.appgame.prestador.domain.BaseResult
 import com.appgame.prestador.domain.loan.CreateLoanRequest
 import com.appgame.prestador.domain.loan.Loan
-import com.appgame.prestador.domain.user.AmountError
-import com.appgame.prestador.domain.user.DateError
-import com.appgame.prestador.domain.user.FormError
-import com.appgame.prestador.domain.user.TypeInterest
+import com.appgame.prestador.domain.user.*
 import com.appgame.prestador.use_case.loan.LoanUseCases
 import com.appgame.prestador.utils.date.DATE_BASE_FORMAT
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -69,8 +66,14 @@ class CreateLoanViewModel @Inject constructor(
             _formError.postValue(DateError("Eliga una fecha"))
             return
         }
-        createLoanRequest.typeInterest.ifEmpty {
-            _formError.postValue(TypeInterest("Elije el tipo de interes, simple o compuesto"))
+
+        createLoanRequest.paymentsTime.ifEmpty {
+            _formError.postValue(PaymentsTime(("Elije un plazo de pago")))
+            return
+        }
+
+        createLoanRequest.interestTime.ifEmpty {
+            _formError.postValue(InterestTime("Elije el tiempo de cobro del interes"))
             return
         }
 

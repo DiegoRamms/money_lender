@@ -161,7 +161,7 @@ class ContactDetailFragment : Fragment() {
     }
 
     private fun initDialogError(message: String) {
-        dialogError.showDialog(parentFragmentManager, message)
+        dialogError.showDialog(parentFragmentManager, message, listener = {requireActivity().finish()})
     }
 
     private fun initDialog() {

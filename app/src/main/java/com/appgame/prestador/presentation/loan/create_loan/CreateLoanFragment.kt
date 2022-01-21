@@ -16,14 +16,14 @@ import com.appgame.prestador.databinding.FragmentCreateLoanBinding
 import com.appgame.prestador.domain.StatusResult
 import com.appgame.prestador.domain.contact.Contact
 import com.appgame.prestador.domain.loan.CreateLoanRequest
+import com.appgame.prestador.domain.loan.DifferenceTime
 import com.appgame.prestador.domain.user.AmountError
-import com.appgame.prestador.domain.user.DateError
-import com.appgame.prestador.domain.user.TypeInterest
 import com.appgame.prestador.utils.*
 import com.appgame.prestador.utils.date.DATE_BASE_FORMAT
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+import kotlin.math.floor
 
 @AndroidEntryPoint
 class CreateLoanFragment : Fragment() {
@@ -35,9 +35,8 @@ class CreateLoanFragment : Fragment() {
     private val viewModel: CreateLoanViewModel by viewModels()
     private var startDate: Date? = null
     private var limitDate: Date? = null
-    private var paymentsTime = ONCE
-    private var interestTime = YEARLY
-    private var typeInterest = ""
+    private var paymentsTime = ""
+    private var interestTime = ""
     private var contact: Contact? = null
 
     override fun onCreateView(
@@ -84,9 +83,7 @@ class CreateLoanFragment : Fragment() {
             showPicker()
         }
 
-        binding?.radioGroup?.setOnCheckedChangeListener { radioGroup, i ->
 
-        }
 
         binding?.chipGroup?.setOnCheckedChangeListener { _, checkedId ->
             paymentsTime = when(checkedId){
@@ -95,38 +92,20 @@ class CreateLoanFragment : Fragment() {
                 R.id.chip_weekly -> WEEKLY
                 R.id.chip_daily -> DAILY
                 R.id.chip_once -> ONCE
-                else -> ONCE
-            }
-        }
-
-        binding?.radioGroup?.setOnCheckedChangeListener { _, i ->
-            typeInterest = when(i){
-                R.id.radio_compound -> COMPOUND
-                R.id.radio_simple -> SIMPLE
                 else -> ""
             }
         }
+
 
         binding?.radioGroupTime?.setOnCheckedChangeListener { _, i ->
             interestTime = when(i){
                 R.id.radio_month -> MONTHLY
                 R.id.radio_year -> YEARLY
+                R.id.radio_once -> ONCE
                 else -> ""
             }
         }
 
-        binding?.switchInterest?.setOnCheckedChangeListener { _, _ ->
-            binding?.switchInterest?.isChecked?.let {
-                if (it) {
-                    binding?.tvInfoInterest?.text = "* EL interes se calculara dependiendo del plazo elegido"
-                    interestTime = paymentsTime
-                    binding?.radioGroupTime?.visibility = View.GONE
-                }else{
-                    binding?.tvInfoInterest?.text = "* EL interes se calculara mesual o anual"
-                    binding?.radioGroupTime?.visibility = View.VISIBLE
-                }
-            }
-        }
 
 
     }
@@ -155,13 +134,7 @@ class CreateLoanFragment : Fragment() {
                 is AmountError -> {
                     binding?.edtAmount?.error = it.description
                 }
-                is DateError -> {
-                    requireContext().simpleDialog(message = it.description)
-                }
-                is TypeInterest -> {
-                    requireContext().simpleDialog(message = it.description)
-                }
-                else -> {}
+                else -> {requireContext().simpleDialog(message = it.description)}
             }
         })
     }
@@ -183,7 +156,7 @@ class CreateLoanFragment : Fragment() {
             val calendar2 = Calendar.getInstance(TimeZone.getTimeZone("GTM"))
             calendar.timeInMillis = it.first
             calendar2.timeInMillis = it.second
-            val startDateString = SimpleDateFormat(DATE_BASE_FORMAT, Locale("es", "ES"))
+            val startDateString =  SimpleDateFormat(DATE_BASE_FORMAT, Locale("es", "ES"))
                 .format(calendar.time)
                 .replace(".", "")
             val limitDateString = SimpleDateFormat(DATE_BASE_FORMAT, Locale("es", "ES"))
@@ -194,7 +167,17 @@ class CreateLoanFragment : Fragment() {
             startDate = calendar.time
             limitDate = calendar2.time
 
+            val differenceTime = getDifferenceTime(startDate!!,limitDate!!)
+
+            binding?.clInterestInfo?.visibility = View.VISIBLE
+            binding?.chipMonth?.visibility = if (differenceTime.days < 31) View.GONE else View.VISIBLE
+            binding?.chipFortnightly?.visibility = if (differenceTime.weeks < 2) View.GONE else View.VISIBLE
+            binding?.chipWeekly?.visibility = if (differenceTime.weeks < 1)View.GONE else View.VISIBLE
+            binding?.radioYear?.visibility = if (differenceTime.years < 1)View.GONE else View.VISIBLE
+            binding?.chipGroup?.clearCheck()
+            binding?.radioGroupTime?.clearCheck()
             binding?.tvDate?.text = textDates
+
         }
 
         dateRangePicker.show(parentFragmentManager, "datepicker")
@@ -205,7 +188,22 @@ class CreateLoanFragment : Fragment() {
         val interestPercent = binding?.slider?.value.toString()
         val comment = binding?.edtComment?.text.toString()
 
-        return CreateLoanRequest(contactId, amount, startDate, limitDate, paymentsTime, interestPercent, interestTime,typeInterest,comment)
+        return CreateLoanRequest(contactId, amount, startDate, limitDate, paymentsTime, interestPercent, interestTime,comment)
+    }
+
+    private fun getDifferenceTime(dateStart: Date, dateLimit: Date): DifferenceTime{
+        val millisecondMinute: Double = 1000.00 * 60
+        val millisecondHour = millisecondMinute * 60
+        val millisecondDay = millisecondHour * 24
+
+        val differenceTime = dateLimit.time - dateStart.time
+
+        val days = floor(differenceTime/millisecondDay)
+        val weeks = floor(days/7)
+        val months = floor(days/31)
+        val years = floor(months/12)
+
+        return DifferenceTime(days = days,weeks = weeks,months = months,years = years)
     }
 
 

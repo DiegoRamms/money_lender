@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.appgame.prestador.databinding.ItemLoanBinding
 import com.appgame.prestador.domain.loan.Loan
 import com.appgame.prestador.utils.LoanStatus
+import com.appgame.prestador.utils.mapStatus
 
 class LoanAdapter : ListAdapter<Loan, LoanAdapter.ViewHolder>(LoanDiffCallback) {
 
@@ -28,12 +29,7 @@ class LoanAdapter : ListAdapter<Loan, LoanAdapter.ViewHolder>(LoanDiffCallback) 
         fun bind(loan: Loan) {
             binding.tvAmount.text = "$${loan.amount}"
             binding.tvInterest.text = "%${loan.interestPercent} de interes"
-            binding.tvStatus.text = when (loan.status) {
-                LoanStatus.PENDING.value -> "Pendiente"
-                LoanStatus.IN_PROGRESS.value -> "En progreso"
-                LoanStatus.FINALIZED.value -> "Finalizado"
-                else -> ""
-            }
+            binding.tvStatus.text = mapStatus(loan.status)
 
             binding.cardView.setOnClickListener {
                 onItemListener?.let { it(getItem(adapterPosition)) }

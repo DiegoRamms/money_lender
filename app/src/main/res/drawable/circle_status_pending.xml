@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="oval">
-            <stroke android:color="@color/black_light" android:width="1dp"/>
+            <stroke android:color="@color/grey" android:width="1dp"/>
             <gradient android:startColor="#999999"
                 android:centerColor="#767676"
                 android:endColor="#414040"

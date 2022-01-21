@@ -7,6 +7,7 @@ import com.appgame.prestador.di.IODispatcher
 import com.appgame.prestador.di.MainDispatcher
 import com.appgame.prestador.domain.BaseResult
 import com.appgame.prestador.domain.loan.LoanIdRequest
+import com.appgame.prestador.domain.payment.CreatePaymentRequest
 import com.appgame.prestador.domain.payment.LoanPaymentDetail
 import com.appgame.prestador.use_case.payment.PaymentUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -40,6 +41,10 @@ class PaymentsViewModel @Inject constructor(
                 _dialogLoading.postValue(   false)
             }
         }
+    }
+
+    fun addPayment(createPaymentRequest: CreatePaymentRequest){
+
     }
 
     fun setDialogLoadingTrue() {

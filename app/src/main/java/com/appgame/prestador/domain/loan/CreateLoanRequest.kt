@@ -26,11 +26,7 @@ data class CreateLoanRequest(
     @SerializedName("interestTime")
     @Expose
     val interestTime: String,
-    @SerializedName("typeInterest")
-    @Expose
-    val typeInterest: String,
     @SerializedName("comment")
     @Expose
     val comment: String
-
 )

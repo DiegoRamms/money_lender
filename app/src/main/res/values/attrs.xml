@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="AvatarImageBehavior">
-        <attr name="finalXPosition" format="dimension"/>
-        <attr name="finalYPosition" format="dimension"/>
-        <attr name="finalHeight" format="dimension"/>
-        <attr name="finalToolbarHeight" format="dimension"/>
+    <declare-styleable name="dark_theme">
+        <attr name="colorTitleText" format="color"/>
+        <attr name="colorSubtitleText" format="color"/>
+        <attr name="colorPrincipalText" format="color"/>
+        <attr name="colorPrincipalAlphaText" format="color"/>
+        <attr name="colorDescriptionText" format="color"/>
+        <attr name="colorInfoText" format="color"/>
+        <attr name="colorGenericIcon" format="color"/>
     </declare-styleable>
 </resources>

@@ -2,17 +2,22 @@
     <!-- Base application theme. -->
     <style name="Theme.Prestador" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/salmon</item>
+        <item name="colorPrimaryVariant">@color/light_red</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorSecondary">@color/yellow</item>
+        <item name="colorSecondaryVariant">@color/yellow</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="colorOnBackground">@color/background_night</item>
+        <item name="colorTitleText">@color/white</item>
+        <item name="colorSubtitleText">@color/salmon</item>
+        <item name="colorPrincipalText">@color/white</item>
+        <item name="colorPrincipalAlphaText">@color/white_alpha_80</item>
+        <item name="colorGenericIcon">@color/white</item>
 
 
 
@@ -42,6 +47,12 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
+
+    <style name="Widget.App.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_marginStart">25dp</item>
+        <item name="android:layout_marginEnd">25dp</item>
+    </style>
+
     <style name="principal_edit" parent="Widget.Design.TextInputLayout">
         <item name="android:background">@drawable/edit_login_bg</item>
         <item name="android:layout_marginStart">40dp</item>
@@ -50,7 +61,7 @@
         <item name="android:paddingEnd">20dp</item>
         <item name="android:height">50dp</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:textColorHint">@color/white_light</item>
+        <item name="android:textColorHint">@color/light_white</item>
         <item name="android:fontFamily">@font/hammersmith_one</item>
         <item name="errorIconTint">@color/red_warning</item>
         <item name="android:textSize">20sp</item>
@@ -69,13 +80,13 @@
     </style>
 
     <style name="ThemeOverlay.App.Slider" parent="">
-        <item name="colorPrimary">@color/teal_200</item>
-        <item name="colorOnPrimary">@color/white_light</item>
-        <item name="colorOnSurface">@color/black_light</item>
+        <item name="colorPrimary">@color/yellow</item>
+        <item name="colorOnPrimary">@color/light_white</item>
+        <item name="colorOnSurface">@color/grey</item>
     </style>
 
     <style name="Widget.App.Tooltip" parent="Widget.MaterialComponents.Tooltip">
-        <item name="backgroundTint">@color/black_light</item>
+        <item name="backgroundTint">@color/grey</item>
     </style>
 
 </resources>

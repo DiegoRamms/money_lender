@@ -17,6 +17,7 @@
     <string name="tittle_request">Solicitudes recibidas:</string>
     <string name="no_requests">Sin solicitudes</string>
 
+    <string name="amount_with_sign">$%1$s</string>
     <string name="progress_pay_out">Pagado %1$s</string>
 
 </resources>

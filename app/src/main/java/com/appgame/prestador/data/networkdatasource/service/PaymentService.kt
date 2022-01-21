@@ -1,6 +1,7 @@
 package com.appgame.prestador.data.networkdatasource.service
 
 import com.appgame.prestador.domain.loan.LoanIdRequest
+import com.appgame.prestador.domain.payment.CreatePaymentRequest
 import com.appgame.prestador.domain.payment.LoanPaymentDetailDTO
 import com.appgame.prestador.domain.payment.LoanPaymentDetailResponse
 import retrofit2.http.Body
@@ -10,5 +11,8 @@ interface PaymentService {
 
     @POST("payment/loanPaymentDetail")
     suspend fun getLoanPaymentDetail(@Body loanIdRequest: LoanIdRequest): LoanPaymentDetailResponse
+
+    @POST("/payment/create")
+    suspend fun createPayment(@Body createPaymentRequest: CreatePaymentRequest): PaymentResponse
 
 }

@@ -21,6 +21,8 @@ class PaymentsActivity: AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.rootView)
 
+        supportActionBar?.hide()
+
         loan = intent.getParcelableExtra(LOAN)
 
 

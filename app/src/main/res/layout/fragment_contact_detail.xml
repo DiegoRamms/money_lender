@@ -11,12 +11,12 @@
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/purple_500">
+        android:background="@color/light_salmon">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            app:contentScrim="@color/teal_200"
+            app:contentScrim="@color/yellow"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
 
 

@@ -20,7 +20,7 @@ class LoginActivity: AppCompatActivity(), LoginFragment.ClickLogin {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        window.statusBarColor = ContextCompat.getColor(applicationContext,R.color.purple_200)
+        window.statusBarColor = ContextCompat.getColor(applicationContext,R.color.salmon)
         supportActionBar?.hide()
 
         getIntentValues()

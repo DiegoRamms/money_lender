@@ -3,245 +3,360 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FAFAFA">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
 
-        <TextView
-            android:id="@+id/tv_amount"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/voces"
-            android:textAlignment="center"
-            android:textAppearance="@style/textItemPrimary"
-            android:textSize="50sp"
-            android:textStyle="bold"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_progress_info"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            tools:text="$500" />
 
-        <TextView
-            android:id="@+id/tv_interest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/abel"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="@id/tv_amount"
-            app:layout_constraintStart_toStartOf="@id/tv_amount"
-            app:layout_constraintTop_toBottomOf="@id/tv_amount"
-            tools:text="%10 de interes" />
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp">
 
-        <ProgressBar
-            android:id="@+id/progress_horizontal"
-            app:layout_constraintTop_toBottomOf="@id/tv_interest"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="20dp"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:progress="20"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/tv_paid_out"
-            tools:text="pagado: $500 de $600"
-            app:layout_constraintTop_toBottomOf="@id/progress_horizontal"
-            android:fontFamily="@font/abel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tv_paid_out"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginEnd="10dp"
+                        android:fontFamily="@font/abel"
+                        android:textColor="?attr/colorPrincipalText"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Pagado $500 de 5000" />
+
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/progress_circular"
+                        android:layout_width="220dp"
+                        android:layout_height="200dp"
+                        app:indicatorColor="?attr/colorPrimary"
+                        app:indicatorSize="150dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:progress="20"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:trackColor="@color/light_grey"
+                        app:trackCornerRadius="50dp"
+                        app:trackThickness="15dp"
+                        tools:progress="70" />
+
+                    <TextView
+                        android:id="@+id/tv_amount"
+                        android:layout_width="80dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="-5dp"
+                        android:autoSizeTextType="uniform"
+                        android:fontFamily="@font/voces"
+                        android:gravity="center"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="50sp"
+                        app:layout_constraintBottom_toBottomOf="@id/progress_circular"
+                        app:layout_constraintEnd_toEndOf="@id/progress_circular"
+                        app:layout_constraintStart_toStartOf="@id/progress_circular"
+                        app:layout_constraintTop_toTopOf="@id/progress_circular"
+                        tools:text="$5000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-5dp"
+                        android:alpha=".8"
+                        android:fontFamily="@font/abel"
+                        android:text="total más interes"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="@id/tv_amount"
+                        app:layout_constraintStart_toStartOf="@id/tv_amount"
+                        app:layout_constraintTop_toBottomOf="@id/tv_amount" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <TextView
             android:id="@+id/tv_comment"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_baseline_info_24"
-            android:drawableTint="?attr/colorAccent"
-            android:visibility="gone"
-            android:textStyle="bold"
-            android:fontFamily="@font/voces"
-            android:textSize="19sp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
             android:drawablePadding="5dp"
-            android:layout_marginTop="20dp"
-            android:gravity="center_vertical"
-            tools:visibility="visible"
-            app:layout_constraintTop_toBottomOf="@id/tv_paid_out"
-            tools:text="Se paga hoy mismo en la noche" />
-
-        <TextView
-            android:layout_marginTop="15dp"
-            android:id="@+id/tv_loan_plus_interest_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Total interes mas deuda"
-            android:textSize="17sp"
-            android:fontFamily="@font/voces"
+            android:fontFamily="@font/abel"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:visibility="gone"
+            app:drawableStartCompat="@drawable/ic_baseline_info_24"
+            app:drawableTint="?attr/colorAccent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_comment" />
+            app:layout_constraintTop_toBottomOf="@id/cl_progress_info"
+            tools:text="Se paga hoy mismo en la noche"
+            tools:visibility="visible" />
 
-        <TextView
-            android:id="@+id/tv_loan_plus_interest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:textSize="17sp"
-            android:fontFamily="@font/voces"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/tv_loan_plus_interest_info"
-            app:layout_constraintStart_toEndOf="@id/tv_loan_plus_interest_info"
-            app:layout_constraintTop_toTopOf="@id/tv_loan_plus_interest_info"
-            tools:text="$550" />
+        <ImageView
+            android:id="@+id/img_background"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="-20dp"
+            app:layout_constraintEnd_toEndOf="@id/cl_bottom_info_1"
+            app:layout_constraintStart_toStartOf="@id/cl_bottom_info_1"
+            app:layout_constraintTop_toBottomOf="@id/tv_comment"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:srcCompat="@drawable/curves_lines">
 
-        <TextView
-            android:layout_marginTop="8dp"
-            android:id="@+id/tv_next_payment_info"
-            android:layout_width="wrap_content"
+        </ImageView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_bottom_info_1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Siguiente pago: "
-            android:textSize="17sp"
-            android:fontFamily="@font/voces"
+            android:layout_marginTop="18dp"
+
+
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_loan_plus_interest_info" />
+            app:layout_constraintTop_toBottomOf="@id/tv_comment">
 
-        <TextView
-            android:id="@+id/tv_next_payment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:textSize="17sp"
-            android:fontFamily="@font/voces"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/tv_next_payment_info"
-            app:layout_constraintStart_toEndOf="@id/tv_next_payment_info"
-            app:layout_constraintTop_toTopOf="@id/tv_next_payment_info"
-            tools:text="$550 el 20/Nov/2021" />
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp">
 
-        <TextView
-            android:layout_marginTop="8dp"
-            android:id="@+id/tv_payments_info"
-            android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:minHeight="125dp"
+                    android:padding="15dp">
+
+                    <TextView
+                        android:id="@+id/tv_amount_lend_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/voces"
+                        android:text="Monto prestado"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_amount_lend"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/abel"
+                        android:textColor="@color/black"
+
+                        app:layout_constraintStart_toStartOf="@id/tv_amount_lend_info"
+                        app:layout_constraintTop_toBottomOf="@id/tv_amount_lend_info"
+                        tools:text="$500" />
+
+
+                    <TextView
+                        android:id="@+id/tv_interest_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/voces"
+                        android:text="Interes"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_interest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/abel"
+                        android:textColor="@color/black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_interest_info"
+                        tools:text="%10 Anual" />
+
+                    <TextView
+                        android:id="@+id/tv_payments_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/voces"
+                        android:text="Pagos"
+                        app:layout_constraintBottom_toTopOf="@id/tv_payments_time"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_payments_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/abel"
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:text="Semanales" />
+
+                    <TextView
+                        android:id="@+id/tv_type_interest_info"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/voces"
+                        android:text="Tipo de interes"
+                        app:layout_constraintBottom_toTopOf="@id/tv_type_interest"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_type_interest"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+
+                        android:fontFamily="@font/abel"
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="Simple" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_bottom_info_2"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Pagos:"
-            android:textSize="17sp"
-            android:fontFamily="@font/voces"
+            android:layout_marginTop="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_next_payment_info" />
-
-        <TextView
-            android:id="@+id/tv_payments_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            android:fontFamily="@font/voces"
-            app:layout_constraintBottom_toBottomOf="@id/tv_payments_info"
-            app:layout_constraintStart_toEndOf="@id/tv_payments_info"
-            app:layout_constraintTop_toTopOf="@id/tv_payments_info"
-            tools:text="Semanales" />
-
-        <TextView
-            android:id="@+id/tv_type_interest_info"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_height="wrap_content"
-            android:text="tipo de interes:"
-            android:fontFamily="@font/voces"
-            android:textSize="17sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_payments_time" />
-
-        <TextView
-            android:id="@+id/tv_type_interest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:fontFamily="@font/voces"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/tv_type_interest_info"
-            app:layout_constraintStart_toEndOf="@id/tv_type_interest_info"
-            app:layout_constraintTop_toTopOf="@id/tv_type_interest_info"
-            tools:text="Simnple" />
-        <TextView
-            android:id="@+id/tv_interest_time_info"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_height="wrap_content"
-            android:text="interes:"
-            android:fontFamily="@font/voces"
-            android:textSize="17sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_type_interest_info" />
-
-        <TextView
-            android:id="@+id/tv_interest_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:fontFamily="@font/voces"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/tv_interest_time_info"
-            app:layout_constraintStart_toEndOf="@id/tv_interest_time_info"
-            app:layout_constraintTop_toTopOf="@id/tv_interest_time_info"
-            tools:text="Anual" />
+            app:layout_constraintTop_toBottomOf="@id/cl_bottom_info_1">
 
 
-        <TextView
-            android:id="@+id/tv_date_start_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Prestamo realizado el"
-            android:fontFamily="@font/voces"
-            android:textSize="17sp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_interest_time_info" />
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp">
 
-        <TextView
-            android:id="@+id/tv_date_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:fontFamily="@font/voces"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="@id/tv_date_start_info"
-            app:layout_constraintStart_toEndOf="@id/tv_date_start_info"
-            app:layout_constraintTop_toBottomOf="@id/tv_date_start_info"
-            tools:text="30/Nov/2021" />
-        <TextView
-            android:id="@+id/tv_date_limit_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Limite de pago"
-            android:fontFamily="@font/voces"
-            android:textSize="17sp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintHorizontal_weight="5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_date_start_info" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="125dp"
+                    android:minHeight="125dp"
+                    android:padding="15dp">
 
-        <TextView
-            android:id="@+id/tv_date_limit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:fontFamily="@font/voces"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="@id/tv_date_limit_info"
-            app:layout_constraintBottom_toBottomOf="@id/tv_date_limit_info"
-            app:layout_constraintStart_toEndOf="@id/tv_date_limit_info"
-            tools:text="1/Dic/2021"  />
+                    <TextView
+                        android:id="@+id/tv_date_start_info"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/voces"
+                        android:text="Realizado el"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
+                    <TextView
+                        android:id="@+id/tv_date_start"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/abel"
+                        android:textColor="@color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_date_start_info"
+                        tools:text="30/Nov/2021" />
+
+                    <TextView
+                        android:id="@+id/tv_date_limit_info"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/voces"
+                        android:text="Limite de pago"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_date_limit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:fontFamily="@font/abel"
+                        android:textColor="@color/black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_date_limit_info"
+                        tools:text="1/Dic/2021" />
+
+                    <TextView
+                        android:id="@+id/tv_next_payment_info"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/voces"
+                        android:text="Siguiente pago: "
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/tv_next_payment"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_next_payment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/abel"
+                        android:textColor="@color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        tools:text="20/Nov/2021" />
+
+                    <TextView
+                        android:id="@+id/tv_status_info"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/voces"
+                        android:text="Estatus"
+                        app:layout_constraintBottom_toTopOf="@id/tv_status"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_status"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/abel"
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="Finalizado" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,13 +1,11 @@
 package com.appgame.prestador.presentation.contacts.request_pending
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
 import com.appgame.prestador.R
 import com.appgame.prestador.databinding.ActivityMainBinding
-import com.appgame.prestador.utils.toastLong
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,7 +19,7 @@ class AddContactActivity: AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.rootView)
 
-        window?.statusBarColor = ContextCompat.getColor(applicationContext,R.color.purple_200)
+        window?.statusBarColor = ContextCompat.getColor(applicationContext,R.color.salmon)
         supportActionBar?.hide()
 
         if (savedInstanceState == null){

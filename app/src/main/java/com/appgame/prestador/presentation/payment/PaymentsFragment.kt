@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +29,7 @@ class PaymentsFragment : Fragment() {
     private var loan: Loan? = null
     private val dialogLoading by lazy { LoadingDialogFragment.newInstance() }
     private val dialogError by lazy { ErrorDialogFragment.newInstance() }
+    private val dialogCreatePayment by lazy {CreatePaymentDialogFragment.newInstance()}
     private val viewModel: PaymentsViewModel by viewModels()
 
     override fun onCreateView(
@@ -57,17 +59,6 @@ class PaymentsFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
         }
         val array = listOf(
-            Contact("41413", "23423", "dsad@gmail", "Prueba", "asdas"),
-            Contact("41413", "23423", "dsad@gmail", "Prueba", "asdas"),
-            Contact("41413", "23423", "dsad@gmail", "Prueba", "asdas"),
-            Contact("41413", "23423", "dsad@gmail", "Prueba", "asdas"),
-            Contact("41413", "23423", "dsad@gmail", "Prueba", "asdas"),
-            Contact("41413", "23423", "dsad@gmail", "Prueba", "asdas"),
-            Contact("41413", "23423", "dsad@gmail", "Prueba", "asdas"),
-            Contact("41413", "23423", "dsad@gmail", "Prueba", "asdas"),
-            Contact("41413", "23423", "dsad@gmail", "Prueba", "asdas"),
-            Contact("41413", "23423", "dsad@gmail", "Prueba", "asdas"),
-            Contact("41413", "23423", "dsad@gmail", "Prueba", "asdas"),
             Contact("41413", "23423", "dsad@gmail", "Prueba", "asdas")
         )
         adapterC.submitList(array)
@@ -77,10 +68,11 @@ class PaymentsFragment : Fragment() {
 
     private fun initView() {
 
-        loan?.let {
-            binding?.tvAmount?.text = it.amount
-            val interestText = "%${it.interestPercent} de interes"
-            binding?.tvInterest?.text = interestText
+        loan?.let { it ->
+            val amountText = "$${it.amount}"
+            binding?.tvAmount?.text =amountText
+            binding?.tvAmountLend?.text = amountText
+            binding?.tvStatus?.text = mapStatus(it.status)
             binding?.tvPaymentsTime?.text = when (it.paymentsTime) {
                 MONTHLY -> "Mensual"
                 FORTNIGHTLY -> "Quincenal"
@@ -89,7 +81,7 @@ class PaymentsFragment : Fragment() {
                 ONCE -> "Una sola excibición"
                 else -> ""
             }
-            binding?.tvInterestTime?.text = when (it.paymentsTime) {
+            ("%"+it.interestPercent + " " + when (it.interestTime) {
                 YEARLY -> "Anual"
                 MONTHLY -> "Mensual"
                 FORTNIGHTLY -> "Quincenal"
@@ -97,13 +89,16 @@ class PaymentsFragment : Fragment() {
                 DAILY -> "Diario"
                 ONCE -> "Una vez"
                 else -> ""
-            }
+            }).also { result -> binding?.tvInterest?.text = result }
+
+
+
             binding?.tvTypeInterest?.text = when (it.type) {
                 SIMPLE -> "Simple"
                 COMPOUND -> "Compuesto"
                 else -> ""
             }
-            if (it.comment.isNotEmpty()){
+            if (it.comment.isNotEmpty()) {
                 binding?.tvComment?.visibility = View.VISIBLE
                 binding?.tvComment?.text = it.comment
             }
@@ -131,20 +126,44 @@ class PaymentsFragment : Fragment() {
                 }
             })
         }
+
+        binding?.bottomSheetLayoutInclude?.fabAddPayment?.setOnClickListener {
+            val arguments = Bundle().apply {
+                putString(LOAN_ID, loan?.loanId)
+            }
+            dialogCreatePayment.arguments = arguments
+            dialogCreatePayment.showDialog(parentFragmentManager)
+        }
+
+        dialogCreatePayment.clickAddPayment {
+            addPaymentRequest ->
+            Toast.makeText(requireContext(), addPaymentRequest.toString(), Toast.LENGTH_SHORT).show()
+        }
+
     }
 
-    private fun initObservers(){
+    private fun initObservers() {
         viewModel.paymentDetail.observe(viewLifecycleOwner, { response ->
-            when(response.status){
+            when (response.status) {
                 StatusResult.LOADING -> initDialog()
-                StatusResult.OK -> {response?.data?.let { paymentInfo ->
-                    binding?.tvPaidOut?.text = requireContext().getString(R.string.progress_pay_out,paymentInfo.progressPayText)
-                    binding?.tvNextPayment?.text = paymentInfo.nextPayTime
-                }}
+                StatusResult.OK -> {
+                    response?.data?.let { paymentInfo ->
+                        binding?.tvPaidOut?.text = requireContext().getString(
+                            R.string.progress_pay_out,
+                            paymentInfo.progressPayText
+                        )
+                        binding?.tvAmount?.text = requireContext().getString(R.string.amount_with_sign,paymentInfo.totalToPay.toString())
+                        binding?.tvNextPayment?.text = paymentInfo.nextPayTime
+                    }
+                }
                 StatusResult.BAD -> {
                     requireContext().simpleDialog(message = response.message)//initDialogError(response.message)
                 }
             }
+        })
+
+        viewModel.dialogLoading.observe(viewLifecycleOwner, {
+            if (!it) dialogLoading.dismiss()
         })
     }
 

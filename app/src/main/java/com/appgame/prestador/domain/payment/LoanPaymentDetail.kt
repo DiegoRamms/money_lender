@@ -4,12 +4,14 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class LoanPaymentDetail(
+    val totalToPay: Double,
     val progressPayPercentage: Double,
     val progressPayText: String,
     val nextPayMoney: String,
     val nextPayTime: String
 ): Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readDouble(),
         parcel.readDouble(),
         parcel.readString()!!,
         parcel.readString()!!,
@@ -18,6 +20,7 @@ data class LoanPaymentDetail(
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeDouble(totalToPay)
         parcel.writeDouble(progressPayPercentage)
         parcel.writeString(progressPayText)
         parcel.writeString(nextPayMoney)
