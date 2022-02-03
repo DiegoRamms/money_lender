@@ -16,10 +16,15 @@ import com.appgame.prestador.domain.StatusResult
 import com.appgame.prestador.domain.contact.Contact
 import com.appgame.prestador.domain.loan.Loan
 import com.appgame.prestador.domain.loan.LoanIdRequest
+import com.appgame.prestador.domain.payment.Payment
 import com.appgame.prestador.presentation.contacts.adapter.ContactsAdapter
+import com.appgame.prestador.presentation.payment.adapter.PaymentAdapter
 import com.appgame.prestador.utils.*
+import com.appgame.prestador.utils.date.DATE_BASE_FORMAT
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.*
 
 @AndroidEntryPoint
 class PaymentsFragment : Fragment() {
@@ -31,6 +36,7 @@ class PaymentsFragment : Fragment() {
     private val dialogError by lazy { ErrorDialogFragment.newInstance() }
     private val dialogCreatePayment by lazy {CreatePaymentDialogFragment.newInstance()}
     private val viewModel: PaymentsViewModel by viewModels()
+    private val paymentAdapter = PaymentAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,16 +58,15 @@ class PaymentsFragment : Fragment() {
             viewModel.getLoanPaymentDetail(LoanIdRequest(loanId = it))
         }
 
-
-        val adapterC = ContactsAdapter()
         binding?.bottomSheetLayoutInclude?.rvPayments?.apply {
-            adapter = adapterC
+            adapter = paymentAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
         val array = listOf(
-            Contact("41413", "23423", "dsad@gmail", "Prueba", "asdas")
+            Payment("332423","324234","5000",SimpleDateFormat(DATE_BASE_FORMAT, Locale.US).format(Date()),true),
+            Payment("332423","324234","500",SimpleDateFormat(DATE_BASE_FORMAT, Locale.US).format(Date()),false)
         )
-        adapterC.submitList(array)
+        paymentAdapter.submitList(array)
 
 
     }
@@ -136,8 +141,7 @@ class PaymentsFragment : Fragment() {
         }
 
         dialogCreatePayment.clickAddPayment {
-            addPaymentRequest ->
-            Toast.makeText(requireContext(), addPaymentRequest.toString(), Toast.LENGTH_SHORT).show()
+            createPaymentRequest -> viewModel.createPayment(createPaymentRequest)
         }
 
     }
@@ -159,6 +163,19 @@ class PaymentsFragment : Fragment() {
                 StatusResult.BAD -> {
                     requireContext().simpleDialog(message = response.message)//initDialogError(response.message)
                 }
+            }
+        })
+
+        viewModel.payment.observe(viewLifecycleOwner,{response ->
+            when(response.status){
+                StatusResult.LOADING -> initDialog()
+                StatusResult.OK -> {
+                    context?.simpleDialog(title = "Creado", message = response.message)
+                    dialogCreatePayment.dismiss()
+                }
+                StatusResult.BAD -> {
+                requireContext().simpleDialog(message = response.message)
+            }
             }
         })
 

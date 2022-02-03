@@ -9,6 +9,7 @@ import com.appgame.prestador.domain.BaseResult
 import com.appgame.prestador.domain.loan.LoanIdRequest
 import com.appgame.prestador.domain.payment.CreatePaymentRequest
 import com.appgame.prestador.domain.payment.LoanPaymentDetail
+import com.appgame.prestador.domain.payment.Payment
 import com.appgame.prestador.use_case.payment.PaymentUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -26,6 +27,8 @@ class PaymentsViewModel @Inject constructor(
 
     private val _paymentsDetail = MutableLiveData<BaseResult<LoanPaymentDetail>>()
     val paymentDetail get() = _paymentsDetail
+    private val _payment = MutableLiveData<BaseResult<Payment>>()
+    val payment get() = _payment
     private val _dialogLoading = MutableLiveData<Boolean>()
     val dialogLoading get() = _dialogLoading
 
@@ -43,7 +46,18 @@ class PaymentsViewModel @Inject constructor(
         }
     }
 
-    fun addPayment(createPaymentRequest: CreatePaymentRequest){
+    fun createPayment(createPaymentRequest: CreatePaymentRequest){
+        _payment.value = BaseResult.resultLoading()
+
+        viewModelScope.launch (mainDispatcher + CoroutineExceptionHandler { _, error ->
+            _payment.postValue(BaseResult.resultBad(error.toString()))
+            _dialogLoading.value = false
+        }){
+            withContext(ioDispatcher){
+                _payment.postValue(useCases.createPayment(createPaymentRequest))
+                _dialogLoading.postValue(false)
+            }
+        }
 
     }
 

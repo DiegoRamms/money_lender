@@ -4,6 +4,7 @@ import com.appgame.prestador.domain.loan.LoanIdRequest
 import com.appgame.prestador.domain.payment.CreatePaymentRequest
 import com.appgame.prestador.domain.payment.LoanPaymentDetailDTO
 import com.appgame.prestador.domain.payment.LoanPaymentDetailResponse
+import com.appgame.prestador.domain.payment.PaymentResponse
 import retrofit2.http.Body
 import retrofit2.http.POST
 

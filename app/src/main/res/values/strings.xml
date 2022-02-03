@@ -19,5 +19,8 @@
 
     <string name="amount_with_sign">$%1$s</string>
     <string name="progress_pay_out">Pagado %1$s</string>
+    <string name="pay_out_the_day">Pagado el dia</string>
+    <string name="to_accept">Aceptar</string>
+    <string name="pending">Pendiente</string>
 
 </resources>

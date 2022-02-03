@@ -1,16 +1,17 @@
 package com.appgame.prestador.domain.payment
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 data class PaymentDTO(
     @SerializedName("_id")
-    var paymentId: Int,
+    var paymentId: String,
     @SerializedName("loanId")
     var loanId: String,
     @SerializedName("amount")
     var amount: String,
     @SerializedName("date")
-    var date: String,
+    var date: Date,
     @SerializedName("isAccepted")
     var isAccepted: Boolean
 ) {

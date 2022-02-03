@@ -18,6 +18,7 @@
         <item name="colorPrincipalText">@color/black</item>
         <item name="colorPrincipalAlphaText">@color/black_alpha_80</item>
         <item name="colorGenericIcon">@color/grey</item>
+        <item name="colorDivider">@color/light_grey</item>
 
 
 

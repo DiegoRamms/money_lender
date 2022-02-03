@@ -8,6 +8,7 @@ import com.appgame.prestador.use_case.contact.*
 import com.appgame.prestador.use_case.loan.CreateLoan
 import com.appgame.prestador.use_case.loan.GetLoansByContactId
 import com.appgame.prestador.use_case.loan.LoanUseCases
+import com.appgame.prestador.use_case.payment.CreatePayment
 import com.appgame.prestador.use_case.payment.GetLoanPaymentDetail
 import com.appgame.prestador.use_case.payment.PaymentUseCases
 import com.appgame.prestador.use_case.user.SearchUser
@@ -56,7 +57,10 @@ object UseCaseModule {
     @Provides
     @ViewModelScoped
     fun providePaymentUseCases(paymentRepository: PaymentRepository): PaymentUseCases {
-        return PaymentUseCases(getLoanPaymentDetail = GetLoanPaymentDetail(paymentRepository))
+        return PaymentUseCases(
+            getLoanPaymentDetail = GetLoanPaymentDetail(paymentRepository),
+            createPayment = CreatePayment(paymentRepository)
+        )
     }
 
 }
