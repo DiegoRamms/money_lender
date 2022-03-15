@@ -14,5 +14,11 @@ data class LoanPaymentDetailDTO(
     @SerializedName("nextPayMoney")
     val nextPayMoney: String,
     @SerializedName("nextPayTime")
-    val nextPayTime: Date
+    val nextPayTime: Date,
+    @SerializedName("isPaidOut")
+    val isPaidOut: Boolean,
+    @SerializedName("payments")
+    var paymentsDTO: List<PaymentDTO>,
+    @SerializedName("currentUserId")
+    val currentUserId: String
 )

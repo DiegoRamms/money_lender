@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAFAFA">
+    android:background="?attr/colorBackgroundSecondary">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,6 +17,7 @@
             android:id="@+id/cl_progress_info"
             android:layout_width="match_parent"
             android:layout_height="230dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -26,16 +27,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                app:cardBackgroundColor="@color/cardview_light_background"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="0dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:paddingTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/tv_paid_out"
+                        android:id="@+id/tv_is_paid_out"
+                        android:text="@string/is_paid_out"
+                        android:textSize="18sp"
+                        android:visibility="gone"
+                        android:fontFamily="@font/abel"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginStart="10dp"
+                        android:textColor="?attr/colorPrimary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/tv_total_to_pay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
@@ -43,19 +57,20 @@
                         android:fontFamily="@font/abel"
                         android:textColor="?attr/colorPrincipalText"
                         android:textSize="16sp"
+                        android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Pagado $500 de 5000" />
 
                     <com.google.android.material.progressindicator.CircularProgressIndicator
                         android:id="@+id/progress_circular"
-                        android:layout_width="220dp"
-                        android:layout_height="200dp"
+                        android:layout_width="225dp"
+                        android:layout_height="225dp"
                         app:indicatorColor="?attr/colorPrimary"
                         app:indicatorSize="150dp"
+                        android:layout_marginTop="10dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:progress="20"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:trackColor="@color/light_grey"
@@ -72,7 +87,7 @@
                         android:fontFamily="@font/voces"
                         android:gravity="center"
                         android:textAlignment="center"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/colorPrincipalText"
                         android:textSize="50sp"
                         app:layout_constraintBottom_toBottomOf="@id/progress_circular"
                         app:layout_constraintEnd_toEndOf="@id/progress_circular"
@@ -83,10 +98,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="-5dp"
+                        android:layout_marginTop="-10dp"
                         android:alpha=".8"
                         android:fontFamily="@font/abel"
-                        android:text="total más interes"
+                        android:text="total pagado"
                         android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="@id/tv_amount"
                         app:layout_constraintStart_toStartOf="@id/tv_amount"
@@ -109,7 +124,7 @@
             android:layout_marginEnd="30dp"
             android:drawablePadding="5dp"
             android:fontFamily="@font/abel"
-            android:textColor="@color/black"
+            android:textColor="?attr/colorPrincipalText"
             android:textSize="19sp"
             android:visibility="gone"
             app:drawableStartCompat="@drawable/ic_baseline_info_24"
@@ -148,7 +163,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                app:cardBackgroundColor="@color/cardview_light_background"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="0dp">
 
@@ -172,7 +186,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/abel"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/colorDescriptionText"
 
                         app:layout_constraintStart_toStartOf="@id/tv_amount_lend_info"
                         app:layout_constraintTop_toBottomOf="@id/tv_amount_lend_info"
@@ -193,7 +207,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/abel"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/colorDescriptionText"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_interest_info"
                         tools:text="%10 Anual" />
@@ -212,7 +226,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/abel"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/colorDescriptionText"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         tools:text="Semanales" />
@@ -233,7 +247,7 @@
                         android:layout_height="wrap_content"
 
                         android:fontFamily="@font/abel"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/colorDescriptionText"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         tools:text="Simple" />
@@ -260,7 +274,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                app:cardBackgroundColor="@color/cardview_light_background"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="0dp">
 
@@ -284,7 +297,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/abel"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/colorDescriptionText"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_date_start_info"
                         tools:text="30/Nov/2021" />
@@ -304,7 +317,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:fontFamily="@font/abel"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/colorDescriptionText"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_date_limit_info"
                         tools:text="1/Dic/2021" />
@@ -325,7 +338,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/abel"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/colorDescriptionText"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         tools:text="20/Nov/2021" />
@@ -345,7 +358,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/abel"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/colorDescriptionText"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         tools:text="Finalizado" />

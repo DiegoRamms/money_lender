@@ -6,6 +6,8 @@ import java.util.*
 data class PaymentDTO(
     @SerializedName("_id")
     var paymentId: String,
+    @SerializedName("user")
+    var user: String,
     @SerializedName("loanId")
     var loanId: String,
     @SerializedName("amount")

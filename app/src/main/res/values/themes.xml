@@ -17,8 +17,11 @@
         <item name="colorSubtitleText">@color/light_salmon</item>
         <item name="colorPrincipalText">@color/black</item>
         <item name="colorPrincipalAlphaText">@color/black_alpha_80</item>
+        <item name="colorDescriptionText">@color/black_description</item>
+
         <item name="colorGenericIcon">@color/grey</item>
         <item name="colorDivider">@color/light_grey</item>
+        <item name="colorBackgroundSecondary">@color/white_background_secondary</item>
 
 
 

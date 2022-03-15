@@ -1,23 +1,19 @@
 package com.appgame.prestador.presentation.payment
 
+import android.graphics.Paint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.appgame.prestador.R
 import com.appgame.prestador.databinding.FragmentPaymentsBinding
 import com.appgame.prestador.domain.StatusResult
-import com.appgame.prestador.domain.contact.Contact
 import com.appgame.prestador.domain.loan.Loan
 import com.appgame.prestador.domain.loan.LoanIdRequest
 import com.appgame.prestador.domain.payment.Payment
-import com.appgame.prestador.presentation.contacts.adapter.ContactsAdapter
 import com.appgame.prestador.presentation.payment.adapter.PaymentAdapter
 import com.appgame.prestador.utils.*
 import com.appgame.prestador.utils.date.DATE_BASE_FORMAT
@@ -34,7 +30,7 @@ class PaymentsFragment : Fragment() {
     private var loan: Loan? = null
     private val dialogLoading by lazy { LoadingDialogFragment.newInstance() }
     private val dialogError by lazy { ErrorDialogFragment.newInstance() }
-    private val dialogCreatePayment by lazy {CreatePaymentDialogFragment.newInstance()}
+    private val dialogCreatePayment by lazy { CreatePaymentDialogFragment.newInstance() }
     private val viewModel: PaymentsViewModel by viewModels()
     private val paymentAdapter = PaymentAdapter()
 
@@ -62,12 +58,6 @@ class PaymentsFragment : Fragment() {
             adapter = paymentAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
-        val array = listOf(
-            Payment("332423","324234","5000",SimpleDateFormat(DATE_BASE_FORMAT, Locale.US).format(Date()),true),
-            Payment("332423","324234","500",SimpleDateFormat(DATE_BASE_FORMAT, Locale.US).format(Date()),false)
-        )
-        paymentAdapter.submitList(array)
-
 
     }
 
@@ -75,8 +65,7 @@ class PaymentsFragment : Fragment() {
 
         loan?.let { it ->
             val amountText = "$${it.amount}"
-            binding?.tvAmount?.text =amountText
-            binding?.tvAmountLend?.text = amountText
+            binding?.tvAmount?.text = amountText
             binding?.tvStatus?.text = mapStatus(it.status)
             binding?.tvPaymentsTime?.text = when (it.paymentsTime) {
                 MONTHLY -> "Mensual"
@@ -86,7 +75,7 @@ class PaymentsFragment : Fragment() {
                 ONCE -> "Una sola excibición"
                 else -> ""
             }
-            ("%"+it.interestPercent + " " + when (it.interestTime) {
+            ("%" + it.interestPercent + " " + when (it.interestTime) {
                 YEARLY -> "Anual"
                 MONTHLY -> "Mensual"
                 FORTNIGHTLY -> "Quincenal"
@@ -140,48 +129,65 @@ class PaymentsFragment : Fragment() {
             dialogCreatePayment.showDialog(parentFragmentManager)
         }
 
-        dialogCreatePayment.clickAddPayment {
-            createPaymentRequest -> viewModel.createPayment(createPaymentRequest)
+        dialogCreatePayment. clickAddPayment { createPaymentRequest ->
+            viewModel.createPayment(createPaymentRequest)
         }
 
     }
 
     private fun initObservers() {
-        viewModel.paymentDetail.observe(viewLifecycleOwner, { response ->
+        viewModel.paymentDetail.observe(viewLifecycleOwner) { response ->
             when (response.status) {
                 StatusResult.LOADING -> initDialog()
                 StatusResult.OK -> {
                     response?.data?.let { paymentInfo ->
-                        binding?.tvPaidOut?.text = requireContext().getString(
-                            R.string.progress_pay_out,
+                        binding?.tvIsPaidOut?.visibility =
+                            if (paymentInfo.isPaidOut) View.VISIBLE else View.GONE
+
+                        binding?.tvTotalToPay?.text = "Total a pagar $${paymentInfo.totalToPay}"
+                        binding?.tvAmount?.text = requireContext().getString(
+                            R.string.amount_with_sign,
                             paymentInfo.progressPayText
                         )
-                        binding?.tvAmount?.text = requireContext().getString(R.string.amount_with_sign,paymentInfo.totalToPay.toString())
+                        if (paymentInfo.isPaidOut) binding?.tvTotalToPay?.paintFlags =
+                            Paint.STRIKE_THRU_TEXT_FLAG;
+
+                        binding?.progressCircular?.progress =
+                            paymentInfo.progressPayPercentage.toInt()
+
                         binding?.tvNextPayment?.text = paymentInfo.nextPayTime
+                        paymentAdapter.setCurrentUserId(paymentInfo.currentUserId)
+                        paymentAdapter.submitList(paymentInfo.payments)
                     }
                 }
                 StatusResult.BAD -> {
-                    requireContext().simpleDialog(message = response.message)//initDialogError(response.message)
+                    requireContext().simpleDialog(
+                        message = response.message,
+                        clickPositive = { dialog, _ ->
+                            dialog.dismiss()
+                            activity?.finish()
+                        })//initDialogError(response.message)
                 }
             }
-        })
+        }
 
-        viewModel.payment.observe(viewLifecycleOwner,{response ->
-            when(response.status){
+        viewModel.payment.observe(viewLifecycleOwner) { response ->
+            when (response.status) {
                 StatusResult.LOADING -> initDialog()
                 StatusResult.OK -> {
+                    response.data?.loanId?.let {viewModel.getLoanPaymentDetail(LoanIdRequest(it))}
                     context?.simpleDialog(title = "Creado", message = response.message)
                     dialogCreatePayment.dismiss()
                 }
                 StatusResult.BAD -> {
-                requireContext().simpleDialog(message = response.message)
+                    requireContext().simpleDialog(message = response.message)
+                }
             }
-            }
-        })
+        }
 
-        viewModel.dialogLoading.observe(viewLifecycleOwner, {
+        viewModel.dialogLoading.observe(viewLifecycleOwner) {
             if (!it) dialogLoading.dismiss()
-        })
+        }
     }
 
     private fun initDialog() {

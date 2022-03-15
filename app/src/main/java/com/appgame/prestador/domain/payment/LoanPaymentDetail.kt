@@ -8,13 +8,19 @@ data class LoanPaymentDetail(
     val progressPayPercentage: Double,
     val progressPayText: String,
     val nextPayMoney: String,
-    val nextPayTime: String
+    val nextPayTime: String,
+    val isPaidOut: Boolean,
+    val payments: List<Payment>,
+    val currentUserId: String
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readDouble(),
         parcel.readDouble(),
         parcel.readString()!!,
         parcel.readString()!!,
+        parcel.readString()!!,
+        parcel.readByte() != 0.toByte(),
+        parcel.createTypedArrayList(Payment)!!,
         parcel.readString()!!
     ) {
     }
@@ -25,6 +31,9 @@ data class LoanPaymentDetail(
         parcel.writeString(progressPayText)
         parcel.writeString(nextPayMoney)
         parcel.writeString(nextPayTime)
+        parcel.writeByte(if (isPaidOut) 1 else 0)
+        parcel.writeTypedList(payments)
+        parcel.writeString(currentUserId)
     }
 
     override fun describeContents(): Int {
@@ -40,4 +49,6 @@ data class LoanPaymentDetail(
             return arrayOfNulls(size)
         }
     }
+
+
 }

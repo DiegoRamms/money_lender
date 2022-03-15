@@ -22,5 +22,6 @@
     <string name="pay_out_the_day">Pagado el dia</string>
     <string name="to_accept">Aceptar</string>
     <string name="pending">Pendiente</string>
+    <string name="is_paid_out">Pago liquidado</string>
 
 </resources>
