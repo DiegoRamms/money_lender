@@ -11,7 +11,7 @@ data class LoanPaymentDetail(
     val nextPayTime: String,
     val isPaidOut: Boolean,
     val payments: List<Payment>,
-    val currentUserId: String
+    var currentUserId: String = ""
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readDouble(),

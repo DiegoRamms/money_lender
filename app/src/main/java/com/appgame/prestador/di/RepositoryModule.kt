@@ -20,31 +20,34 @@ object RepositoryModule {
         loginNetworkDataSource: LoginNetworkDataSource,
         localDataSource: LoginLocalDataSource,
     ): LoginRepository {
-        return LoginRepositoryImp(loginNetworkDataSource, localDataSource )
+        return LoginRepositoryImp(loginNetworkDataSource, localDataSource)
     }
 
     @Provides
     @ViewModelScoped
     fun provideContactRepository(contactsNetworkDataSource: ContactsNetworkDataSource): ContactsRepository {
-       return  ContactsRepositoryImp(contactsNetworkDataSource)
+        return ContactsRepositoryImp(contactsNetworkDataSource)
     }
 
     @Provides
     @ViewModelScoped
-    fun provideUserRepository(userNetworkDataSource: UserNetworkDataSource): UserRepository{
+    fun provideUserRepository(userNetworkDataSource: UserNetworkDataSource): UserRepository {
         return UserRepositoryImp(userNetworkDataSource)
     }
 
     @Provides
     @ViewModelScoped
-    fun provideLoanRepository(loanNetworkDataSource: LoanNetworkDataSource): LoanRepository{
+    fun provideLoanRepository(loanNetworkDataSource: LoanNetworkDataSource): LoanRepository {
         return LoanRepositoryImp(loanNetworkDataSource)
     }
 
     @Provides
     @ViewModelScoped
-    fun providePaymentRepository(paymentNetworkDataSource: PaymentNetworkDataSource): PaymentRepository{
-        return PaymentRepositoryImp(paymentNetworkDataSource)
+    fun providePaymentRepository(
+        paymentNetworkDataSource: PaymentNetworkDataSource,
+        loginLocalDataSource: LoginLocalDataSource
+    ): PaymentRepository {
+        return PaymentRepositoryImp(paymentNetworkDataSource, loginLocalDataSource)
     }
 
 }

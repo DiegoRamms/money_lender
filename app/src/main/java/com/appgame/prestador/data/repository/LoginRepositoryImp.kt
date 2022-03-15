@@ -25,6 +25,7 @@ class LoginRepositoryImp @Inject constructor(
             val response = loginNetworkDataSource.login(loginRequest)
             if (response.status) {
                 loginLocalDataSource.saveJWT(response.jwt)
+                loginLocalDataSource.saveUserId(response.user.uid)
                 BaseResult.resultOK(response.msg, response)
             } else BaseResult.resultBad(response.msg)
 
@@ -35,7 +36,7 @@ class LoginRepositoryImp @Inject constructor(
 
     override suspend fun logout(): LogoutResponse {
 
-        withContext(coroutineContext) {
+        /*withContext(coroutineContext) {
             val timeInit = System.currentTimeMillis()
             val logoutNetwork = async {
 
@@ -54,10 +55,12 @@ class LoginRepositoryImp @Inject constructor(
             val timeFinal = System.currentTimeMillis() - timeInit
             Log.e("Time", timeFinal.toString())
 
-        }
+        }*/
+        loginNetworkDataSource.logout()
+        loginLocalDataSource.deleteUserId()
+        loginLocalDataSource.deleteJWT()
 
         return LogoutResponse(true, "Sesión cerrada")
-
 
     }
 

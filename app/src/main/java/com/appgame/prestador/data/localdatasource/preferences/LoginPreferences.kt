@@ -23,8 +23,27 @@ class LoginPreferences @Inject constructor(private val sharedPreferences: Shared
             apply()
         }
     }
+
+    fun saveUserId(userId: String){
+        sharedPreferences.edit {
+            putString(LoginKeys.USER_ID.value,userId)
+            apply()
+        }
+    }
+
+    fun getUserId(): String {
+        return sharedPreferences.getString(LoginKeys.USER_ID.value,"")!!
+    }
+
+    fun deleteUserId(){
+        sharedPreferences.edit{
+            remove(LoginKeys.USER_ID.value)
+            apply()
+        }
+    }
 }
 
 enum class LoginKeys(val value: String) {
-    JWT("JWT")
+    JWT("JWT"),
+    USER_ID("USER_ID")
 }

@@ -19,6 +19,4 @@ data class LoanPaymentDetailDTO(
     val isPaidOut: Boolean,
     @SerializedName("payments")
     var paymentsDTO: List<PaymentDTO>,
-    @SerializedName("currentUserId")
-    val currentUserId: String
 )
