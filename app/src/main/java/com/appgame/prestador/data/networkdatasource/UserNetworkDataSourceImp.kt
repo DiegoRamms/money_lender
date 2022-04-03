@@ -1,8 +1,8 @@
 package com.appgame.prestador.data.networkdatasource
 
 import com.appgame.prestador.data.networkdatasource.service.UserService
-import com.appgame.prestador.domain.user.SearchUserRequest
-import com.appgame.prestador.domain.user.SearchUserResponse
+import com.appgame.prestador.model.user.SearchUserRequest
+import com.appgame.prestador.model.user.SearchUserResponse
 
 class UserNetworkDataSourceImp(private val service: UserService): UserNetworkDataSource {
 

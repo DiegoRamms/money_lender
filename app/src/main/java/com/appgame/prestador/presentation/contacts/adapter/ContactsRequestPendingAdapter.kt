@@ -1,15 +1,13 @@
 package com.appgame.prestador.presentation.contacts.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.appgame.prestador.databinding.ItemRequestPendingContactBinding
-import com.appgame.prestador.domain.contact.Contact
+import com.appgame.prestador.model.contact.Contact
 import com.appgame.prestador.utils.clickWithDelay
 
 class ContactsRequestPendingAdapter :

@@ -1,7 +1,7 @@
 package com.appgame.prestador.data.networkdatasource
 
 import com.appgame.prestador.data.networkdatasource.service.ContactsService
-import com.appgame.prestador.domain.contact.*
+import com.appgame.prestador.model.contact.*
 import javax.inject.Inject
 
 class ContactsNetworkDataSourceImp @Inject constructor(private val service: ContactsService): ContactsNetworkDataSource {

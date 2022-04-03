@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.appgame.prestador.databinding.ItemPaymentBinding
 import com.appgame.prestador.databinding.ItemPaymentPendingBinding
-import com.appgame.prestador.domain.payment.Payment
+import com.appgame.prestador.model.payment.Payment
 
 class PaymentAdapter: ListAdapter<Payment, RecyclerView.ViewHolder>(PaymentDiffCallback) {
 

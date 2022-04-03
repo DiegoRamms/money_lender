@@ -11,9 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.appgame.prestador.databinding.FragmentContactDetailBinding
-import com.appgame.prestador.domain.StatusResult
-import com.appgame.prestador.domain.contact.Contact
-import com.appgame.prestador.domain.user.UserIdRequest
+import com.appgame.prestador.model.StatusResult
+import com.appgame.prestador.model.contact.Contact
+import com.appgame.prestador.model.user.UserIdRequest
 import com.appgame.prestador.presentation.loan.adapter.LoanAdapter
 import com.appgame.prestador.presentation.loan.create_loan.CreateLoanActivity
 import com.appgame.prestador.presentation.payment.PaymentsActivity
@@ -56,11 +56,13 @@ class ContactDetailFragment : Fragment() {
 
     private fun initView() {
 
+
         contact?.let {
             binding?.tvLetterBig?.text = it.name[0].toString()
             binding?.tvLetterMini?.text = it.name[0].toString()
-            viewModel.getLoansByContactId(UserIdRequest(it.userId))
         }
+        viewModel.getCurrentUserId()
+
         binding?.rvLoan?.let {
             it.adapter = loanAdapter
             it.layoutManager = GridLayoutManager(requireContext(), 2)
@@ -75,7 +77,7 @@ class ContactDetailFragment : Fragment() {
     }
 
     private fun initListeners() {
-        binding?.chipAddLoan?.setOnClickListener {
+        binding?.btnAddLoan?.setOnClickListener {
             startForResultCreateLoan.launch(
                 Intent(
                     requireContext(),
@@ -93,10 +95,18 @@ class ContactDetailFragment : Fragment() {
                     startActivity(this)
                 }
         }
+
+        loanAdapter.clickAcceptListener {
+            viewModel.acceptLoan(it.loanId)
+        }
+
+        loanAdapter.clickDeclineListener {
+            requireContext().toastLong("Decline")
+        }
     }
 
     private fun initObservers() {
-        viewModel.loan.observe(viewLifecycleOwner, {
+        viewModel.loan.observe(viewLifecycleOwner) {
             when (it.status) {
                 StatusResult.LOADING -> initDialog()
                 StatusResult.OK -> {
@@ -106,11 +116,22 @@ class ContactDetailFragment : Fragment() {
                 }
                 StatusResult.BAD -> initDialogError(it.message)
             }
-        })
+        }
 
-        viewModel.dialogLoading.observe(viewLifecycleOwner, {
+        viewModel.currentUserIdState.observe(viewLifecycleOwner){
+            it.data?.let { currentUserId ->
+                loanAdapter.setCurrentUserId(currentUserId)
+                contact?.let { contact ->
+                    viewModel.getLoansByContactId(UserIdRequest(contact.userId))
+                }
+
+            }
+
+        }
+
+        viewModel.dialogLoading.observe(viewLifecycleOwner) {
             if (!it) dialogLoading.dismiss()
-        })
+        }
     }
 
     companion object {

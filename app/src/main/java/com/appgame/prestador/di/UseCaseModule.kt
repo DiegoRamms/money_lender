@@ -1,31 +1,40 @@
 package com.appgame.prestador.di
 
-import com.appgame.prestador.domain.repository.ContactsRepository
-import com.appgame.prestador.domain.repository.LoanRepository
-import com.appgame.prestador.domain.repository.PaymentRepository
-import com.appgame.prestador.domain.repository.UserRepository
-import com.appgame.prestador.use_case.contact.*
-import com.appgame.prestador.use_case.loan.CreateLoan
-import com.appgame.prestador.use_case.loan.GetLoansByContactId
-import com.appgame.prestador.use_case.loan.LoanUseCases
-import com.appgame.prestador.use_case.payment.CreatePayment
-import com.appgame.prestador.use_case.payment.GetLoanPaymentDetail
-import com.appgame.prestador.use_case.payment.PaymentUseCases
-import com.appgame.prestador.use_case.user.SearchUser
-import com.appgame.prestador.use_case.user.UserUseCases
+import com.appgame.prestador.data.repository.*
+import com.appgame.prestador.domain.contact.*
+import com.appgame.prestador.domain.loan.*
+import com.appgame.prestador.domain.login.Login
+import com.appgame.prestador.domain.login.LoginUseCase
+import com.appgame.prestador.domain.login.Logout
+import com.appgame.prestador.domain.payment.CreatePayment
+import com.appgame.prestador.domain.payment.GetLoanPaymentDetail
+import com.appgame.prestador.domain.payment.PaymentUseCases
+import com.appgame.prestador.domain.user.GetCurrentUserId
+import com.appgame.prestador.domain.user.SearchUser
+import com.appgame.prestador.domain.user.UserUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 object UseCaseModule {
 
+    @Provides
+    @Singleton
+    fun providesLoginUseCase(loginRepository: LoginRepository): LoginUseCase{
+        return LoginUseCase(
+            Login(loginRepository),
+            Logout(loginRepository)
+        )
+    }
 
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun provideContactUseCases(contactsRepository: ContactsRepository): ContactUseCases {
         return ContactUseCases(
             getContacts = GetContacts(contactsRepository),
@@ -38,24 +47,27 @@ object UseCaseModule {
     }
 
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun provideUserCases(userRepository: UserRepository): UserUseCases {
         return UserUseCases(
-            searchUser = SearchUser(userRepository)
+            searchUser = SearchUser(userRepository),
+            getCurrentUserId = GetCurrentUserId(userRepository)
         )
     }
 
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun provideLoanUseCases(loanRepository: LoanRepository): LoanUseCases {
         return LoanUseCases(
             getLoansByContactId = GetLoansByContactId(loanRepository),
-            createLoan = CreateLoan(loanRepository)
+            createLoan = CreateLoan(loanRepository),
+            acceptLoan = AcceptLoan(loanRepository),
+            deleteLoan = DeleteLoan(loanRepository)
         )
     }
 
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun providePaymentUseCases(paymentRepository: PaymentRepository): PaymentUseCases {
         return PaymentUseCases(
             getLoanPaymentDetail = GetLoanPaymentDetail(paymentRepository),

@@ -28,5 +28,8 @@
     <color name="transparent_full">#00FFFFFF</color>
     <color name="transparent_black">#782C2929</color>
 
+    <color name="green_light">#A5D6A7</color>
+    <color name="red_light">#EF9A9A</color>
+
     <color name="red_warning">#FF5252</color>
 </resources>

@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.appgame.prestador.R
 import com.appgame.prestador.databinding.ActivityMainBinding
-import com.appgame.prestador.domain.loan.Loan
+import com.appgame.prestador.model.loan.Loan
 import com.appgame.prestador.utils.LOAN
 import dagger.hilt.android.AndroidEntryPoint
 

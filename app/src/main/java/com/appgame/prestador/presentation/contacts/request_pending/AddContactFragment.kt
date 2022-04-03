@@ -9,10 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.appgame.prestador.R
 import com.appgame.prestador.databinding.FragmentAddContactBinding
-import com.appgame.prestador.domain.StatusResult
-import com.appgame.prestador.domain.contact.AddContactRequest
-import com.appgame.prestador.domain.contact.ContactIdRequest
-import com.appgame.prestador.domain.user.SearchUserRequest
+import com.appgame.prestador.model.StatusResult
+import com.appgame.prestador.model.contact.AddContactRequest
+import com.appgame.prestador.model.contact.ContactIdRequest
+import com.appgame.prestador.model.user.SearchUserRequest
 import com.appgame.prestador.presentation.contacts.adapter.ContactsRequestPendingAdapter
 import com.appgame.prestador.utils.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -75,30 +75,30 @@ class AddContactFragment : Fragment() {
 
     private fun initObservers() {
 
-        viewModel.pendingContacts.observe(viewLifecycleOwner, {
+        viewModel.pendingContacts.observe(viewLifecycleOwner) {
             when (it.status) {
                 StatusResult.LOADING -> initDialogLoading()
                 StatusResult.OK -> contactsRequestPendingAdapter.submitList(it.data)
                 StatusResult.BAD -> requireContext().toastLong(it.message)
             }
-        })
+        }
 
-        viewModel.validCode.observe(viewLifecycleOwner, { isValid ->
+        viewModel.validCode.observe(viewLifecycleOwner) { isValid ->
             if (isValid) viewModel.searchUser(SearchUserRequest(userCode))
             else {
                 binding?.edtCode?.error = requireContext().getString(R.string.error_code)
                 binding?.cardUserFound?.fadeAnim()
             }
-        })
+        }
 
-        viewModel.userFound.observe(viewLifecycleOwner, {
+        viewModel.userFound.observe(viewLifecycleOwner) {
             when (it.status) {
                 StatusResult.LOADING -> {
                     initDialogLoading()
                 }
                 StatusResult.OK -> {
                     it.data?.let { user ->
-                        userCodeFound = user.code
+                        userCodeFound = userCode
                         binding?.cardUserFound?.visibility = View.VISIBLE
                         binding?.tvName?.text = user.name
                         binding?.tvCode?.text = user.code
@@ -110,14 +110,14 @@ class AddContactFragment : Fragment() {
                     binding?.cardUserFound?.fadeAnim()
                 }
             }
-        })
+        }
 
-        viewModel.dismissDialog.observe(viewLifecycleOwner, {
+        viewModel.dismissDialog.observe(viewLifecycleOwner) {
             if (it) dialogLoading.dismiss()
-        })
+        }
 
 
-        viewModel.contactAdded.observe(viewLifecycleOwner, {
+        viewModel.contactAdded.observe(viewLifecycleOwner) {
             when (it.status) {
                 StatusResult.LOADING -> {
                     initDialogLoading()
@@ -133,15 +133,15 @@ class AddContactFragment : Fragment() {
                     requireContext().toastLong(it.message)
                 }
             }
-        })
+        }
 
-        viewModel.contactDeleted.observe(viewLifecycleOwner, {
+        viewModel.contactDeleted.observe(viewLifecycleOwner) {
             when (it.status) {
                 StatusResult.LOADING -> initDialogLoading()
                 StatusResult.OK -> requireContext().toastLong(it.message)
                 StatusResult.BAD -> requireContext().toastLong(it.message)
             }
-        })
+        }
     }
 
     private fun initDialogLoading() {

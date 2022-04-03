@@ -3,7 +3,7 @@ package com.appgame.prestador.di
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.appgame.prestador.data.localdatasource.LoginLocalDataSource
+import com.appgame.prestador.data.localdatasource.UserLocalDataSource
 import com.appgame.prestador.data.networkdatasource.service.*
 import com.appgame.prestador.utils.CODE_SESSION_EXPIRED
 import com.appgame.prestador.utils.SessionExpiredActivity
@@ -29,7 +29,7 @@ object NetworkModule {
     @Singleton
     fun providesOkHttpClient(
         @ApplicationContext context: Context,
-        localDataSource: LoginLocalDataSource
+        localDataSource: UserLocalDataSource
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .readTimeout(10,TimeUnit.SECONDS)

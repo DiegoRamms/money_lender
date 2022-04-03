@@ -5,10 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appgame.prestador.di.IODispatcher
 import com.appgame.prestador.di.MainDispatcher
-import com.appgame.prestador.use_case.contact.ContactUseCases
-import com.appgame.prestador.domain.BaseResult
-import com.appgame.prestador.domain.contact.Contact
-import com.appgame.prestador.domain.contact.ContactIdRequest
+import com.appgame.prestador.domain.contact.ContactUseCases
+import com.appgame.prestador.model.BaseResult
+import com.appgame.prestador.model.contact.Contact
+import com.appgame.prestador.model.contact.ContactIdRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch

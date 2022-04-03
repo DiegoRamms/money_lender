@@ -1,7 +1,7 @@
 package com.appgame.prestador.di
 
-import com.appgame.prestador.data.localdatasource.LoginLocalDataSource
-import com.appgame.prestador.data.localdatasource.LoginLocalDataSourceImp
+import com.appgame.prestador.data.localdatasource.UserLocalDataSource
+import com.appgame.prestador.data.localdatasource.UserLocalDataSourceImp
 import com.appgame.prestador.data.localdatasource.preferences.LoginPreferences
 import dagger.Module
 import dagger.Provides
@@ -17,8 +17,8 @@ object LocalDataSourceModule {
 
     @Provides
     @Singleton
-    fun provideLoginLocalDataSource(loginPreferences: LoginPreferences): LoginLocalDataSource {
-        return LoginLocalDataSourceImp(loginPreferences)
+    fun provideLoginLocalDataSource(loginPreferences: LoginPreferences): UserLocalDataSource {
+        return UserLocalDataSourceImp(loginPreferences)
     }
 
 

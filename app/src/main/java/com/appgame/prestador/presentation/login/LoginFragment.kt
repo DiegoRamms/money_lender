@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.appgame.prestador.domain.login.LoginRequest
+import com.appgame.prestador.model.login.LoginRequest
 import com.appgame.prestador.databinding.FragmentLoginBinding
 import com.appgame.prestador.utils.LoadingDialogFragment
-import com.appgame.prestador.domain.StatusResult
+import com.appgame.prestador.model.StatusResult
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -57,7 +57,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun initObservers() {
-        viewModel.loginResponse.observe(viewLifecycleOwner, {
+        viewModel.loginResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 StatusResult.LOADING -> {
                     initDialog()
@@ -73,8 +73,8 @@ class LoginFragment : Fragment() {
                 }
             }
 
-        })
-        viewModel.logoutResponse.observe(viewLifecycleOwner,{
+        }
+        viewModel.logoutResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 StatusResult.LOADING -> {
                     initDialog()
@@ -88,7 +88,7 @@ class LoginFragment : Fragment() {
                     dialogLoading.dismiss()
                 }
             }
-        })
+        }
     }
 
     private fun initDialog(){

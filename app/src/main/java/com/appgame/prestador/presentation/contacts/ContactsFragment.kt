@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.appgame.prestador.R
 import com.appgame.prestador.databinding.FragmentContactsBinding
-import com.appgame.prestador.domain.StatusResult
-import com.appgame.prestador.domain.contact.Contact
-import com.appgame.prestador.domain.contact.ContactIdRequest
+import com.appgame.prestador.model.StatusResult
+import com.appgame.prestador.model.contact.Contact
+import com.appgame.prestador.model.contact.ContactIdRequest
 import com.appgame.prestador.presentation.contacts.adapter.ContactsAdapter
 import com.appgame.prestador.presentation.contacts.request_pending.AddContactActivity
 import com.appgame.prestador.utils.*

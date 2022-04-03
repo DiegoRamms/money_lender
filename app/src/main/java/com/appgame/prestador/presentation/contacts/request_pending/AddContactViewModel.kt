@@ -3,16 +3,17 @@ package com.appgame.prestador.presentation.contacts.request_pending
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.appgame.prestador.domain.contact.AddContactRequest
+import com.appgame.prestador.model.contact.AddContactRequest
 import com.appgame.prestador.di.IODispatcher
 import com.appgame.prestador.di.MainDispatcher
-import com.appgame.prestador.use_case.contact.ContactUseCases
-import com.appgame.prestador.domain.BaseResult
-import com.appgame.prestador.domain.contact.Contact
-import com.appgame.prestador.domain.contact.ContactIdRequest
-import com.appgame.prestador.domain.user.SearchUserRequest
-import com.appgame.prestador.domain.user.User
-import com.appgame.prestador.use_case.user.UserUseCases
+import com.appgame.prestador.domain.contact.ContactUseCases
+import com.appgame.prestador.model.BaseResult
+import com.appgame.prestador.model.contact.Contact
+import com.appgame.prestador.model.contact.ContactIdRequest
+import com.appgame.prestador.model.user.SearchUserRequest
+import com.appgame.prestador.model.user.User
+import com.appgame.prestador.domain.user.UserUseCases
+import com.appgame.prestador.utils.CODE_OK_RESPONSE
 import com.appgame.prestador.utils.validateUserCode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -48,14 +49,16 @@ class AddContactViewModel @Inject constructor(
 
     fun searchUser(searchUserRequest: SearchUserRequest) {
         _userFound.value = BaseResult.resultLoading()
-        viewModelScope.launch(mainDispatcher + CoroutineExceptionHandler { _, _ ->
+        viewModelScope.launch(mainDispatcher + CoroutineExceptionHandler { _, throwable ->
             _userFound.value = BaseResult.resultBad()
             _dismissDialog.value = true
         }) {
 
             val userResponse =
                 withContext(ioDispatcher) { userUseCases.searchUser(searchUserRequest) }
-            _userFound.postValue(userResponse)
+            _userFound.postValue(
+                userResponse
+            )
             _dismissDialog.value = true
         }
 

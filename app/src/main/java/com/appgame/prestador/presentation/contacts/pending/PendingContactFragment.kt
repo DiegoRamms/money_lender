@@ -10,8 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.appgame.prestador.R
 import com.appgame.prestador.databinding.FragmentPendingContactBinding
-import com.appgame.prestador.domain.StatusResult
-import com.appgame.prestador.domain.contact.ContactIdRequest
+import com.appgame.prestador.model.StatusResult
+import com.appgame.prestador.model.contact.ContactIdRequest
 import com.appgame.prestador.presentation.contacts.adapter.ContactsPendingAdapter
 import com.appgame.prestador.utils.ErrorDialogFragment
 import com.appgame.prestador.utils.LoadingDialogFragment

@@ -1,12 +1,11 @@
 package com.appgame.prestador.presentation.contacts.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.appgame.prestador.databinding.ItemContactToAcceptBinding
-import com.appgame.prestador.domain.contact.Contact
+import com.appgame.prestador.model.contact.Contact
 import com.appgame.prestador.utils.clickWithDelay
 
 class ContactsPendingAdapter :

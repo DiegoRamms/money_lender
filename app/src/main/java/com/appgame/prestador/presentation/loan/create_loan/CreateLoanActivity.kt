@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.appgame.prestador.R
 import com.appgame.prestador.databinding.ActivityMainBinding
-import com.appgame.prestador.domain.contact.Contact
+import com.appgame.prestador.model.contact.Contact
 import com.appgame.prestador.utils.CONTACT
 import dagger.hilt.android.AndroidEntryPoint
 

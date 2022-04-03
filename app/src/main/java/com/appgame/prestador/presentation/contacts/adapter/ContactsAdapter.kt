@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.appgame.prestador.databinding.ItemContactBinding
-import com.appgame.prestador.domain.contact.Contact
+import com.appgame.prestador.model.contact.Contact
 
 
 class ContactsAdapter  : ListAdapter<Contact, ContactsAdapter.ViewHolder>(ContactDiffCallback) {

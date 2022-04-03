@@ -10,13 +10,13 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/light_salmon">
+        android:background="?attr/colorOnBackground"
+        android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            app:contentScrim="@color/yellow"
+            app:contentScrim="?attr/colorOnBackground"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
 
 
@@ -55,8 +55,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:fontFamily="@font/baloo_chettan"
-                    android:textColor="@color/white"
+                    android:fontFamily="@font/abel"
+                    android:textColor="?attr/colorPrincipalText"
                     android:textSize="15sp"
                     android:layout_marginTop="10dp"
                     app:layout_constraintStart_toEndOf="@id/circular_view"
@@ -68,25 +68,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:fontFamily="@font/baloo_chettan"
-                    android:textColor="@color/white"
+                    android:fontFamily="@font/abel"
+                    android:textColor="?attr/colorPrincipalText"
                     android:textSize="15sp"
                     android:layout_marginTop="10dp"
                     app:layout_constraintStart_toEndOf="@id/tv_count"
                     app:layout_constraintTop_toTopOf="@id/circular_view"
                     tools:text="Deudas: 0" />
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_add_loan"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_add_loan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/voces"
                     android:textSize="20sp"
-                    android:textColor="@color/white"
-                    app:chipBackgroundColor="?attr/colorSecondary"
-                    android:text="Agregar Presamo"
-                    style="@style/ChipActionStyle"
-                    app:chipIcon="@drawable/ic_baseline_add_24"
+                    android:text="Agregar"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@id/tv_count"
                     app:layout_constraintTop_toBottomOf="@id/tv_count" />
@@ -135,7 +132,7 @@
                     android:fontFamily="@font/baloo_chettan"
                     android:text="Prueba"
                     tools:visibility="gone"
-                    android:textColor="@color/white"
+                    android:textColor="?attr/colorPrincipalText"
                     android:textSize="20sp" />
 
                 <ImageView

@@ -1,9 +1,9 @@
 package com.appgame.prestador.data.networkdatasource.service
 
-import com.appgame.prestador.domain.loan.CreateLoanRequest
-import com.appgame.prestador.domain.loan.LoanResponse
-import com.appgame.prestador.domain.loan.LoansResponse
-import com.appgame.prestador.domain.user.UserIdRequest
+import com.appgame.prestador.model.loan.CreateLoanRequest
+import com.appgame.prestador.model.loan.LoanResponse
+import com.appgame.prestador.model.loan.LoansResponse
+import com.appgame.prestador.model.user.UserIdRequest
 import retrofit2.http.Body
 import retrofit2.http.POST
 

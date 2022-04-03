@@ -1,6 +1,6 @@
 package com.appgame.prestador.data.networkdatasource
 
-import com.appgame.prestador.domain.contact.*
+import com.appgame.prestador.model.contact.*
 
 interface ContactsNetworkDataSource {
     suspend fun getContacts(): ContactsResponse

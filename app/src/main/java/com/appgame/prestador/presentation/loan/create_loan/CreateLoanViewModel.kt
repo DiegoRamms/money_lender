@@ -5,11 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appgame.prestador.di.IODispatcher
 import com.appgame.prestador.di.MainDispatcher
-import com.appgame.prestador.domain.BaseResult
-import com.appgame.prestador.domain.loan.CreateLoanRequest
-import com.appgame.prestador.domain.loan.Loan
-import com.appgame.prestador.domain.user.*
-import com.appgame.prestador.use_case.loan.LoanUseCases
+import com.appgame.prestador.model.BaseResult
+import com.appgame.prestador.model.loan.CreateLoanRequest
+import com.appgame.prestador.model.loan.Loan
+import com.appgame.prestador.model.user.*
+import com.appgame.prestador.domain.loan.LoanUseCases
 import com.appgame.prestador.utils.date.DATE_BASE_FORMAT
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler

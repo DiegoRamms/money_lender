@@ -5,12 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appgame.prestador.di.IODispatcher
 import com.appgame.prestador.di.MainDispatcher
-import com.appgame.prestador.domain.BaseResult
-import com.appgame.prestador.domain.loan.LoanIdRequest
-import com.appgame.prestador.domain.payment.CreatePaymentRequest
-import com.appgame.prestador.domain.payment.LoanPaymentDetail
-import com.appgame.prestador.domain.payment.Payment
-import com.appgame.prestador.use_case.payment.PaymentUseCases
+import com.appgame.prestador.model.BaseResult
+import com.appgame.prestador.model.loan.LoanIdRequest
+import com.appgame.prestador.model.payment.CreatePaymentRequest
+import com.appgame.prestador.model.payment.LoanPaymentDetail
+import com.appgame.prestador.model.payment.Payment
+import com.appgame.prestador.domain.payment.PaymentUseCases
+import com.appgame.prestador.domain.user.GetCurrentUserId
+import com.appgame.prestador.domain.user.UserUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -21,6 +23,7 @@ import kotlin.coroutines.CoroutineContext
 @HiltViewModel
 class PaymentsViewModel @Inject constructor(
     private val useCases: PaymentUseCases,
+    private val userUseCases: UserUseCases,
     @MainDispatcher private val mainDispatcher: CoroutineContext,
     @IODispatcher private val ioDispatcher: CoroutineContext
 ) : ViewModel() {
@@ -29,6 +32,8 @@ class PaymentsViewModel @Inject constructor(
     val paymentDetail get() = _paymentsDetail
     private val _payment = MutableLiveData<BaseResult<Payment>>()
     val payment get() = _payment
+    private val _currentUserIdState = MutableLiveData<BaseResult<String>>()
+    val currentUserIdState get() = _currentUserIdState
     private val _dialogLoading = MutableLiveData<Boolean>()
     val dialogLoading get() = _dialogLoading
 
@@ -42,6 +47,16 @@ class PaymentsViewModel @Inject constructor(
             withContext(ioDispatcher) {
                 _paymentsDetail.postValue(useCases.getLoanPaymentDetail(loanIdRequest))
                 _dialogLoading.postValue(   false)
+            }
+        }
+    }
+
+    fun getCurrentUserId(){
+        viewModelScope.launch(mainDispatcher + CoroutineExceptionHandler { _, _ ->
+            _currentUserIdState.value = BaseResult.resultBad()
+        }) {
+            withContext(ioDispatcher){
+                _currentUserIdState.postValue(userUseCases.getCurrentUserId())
             }
         }
     }

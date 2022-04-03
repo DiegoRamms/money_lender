@@ -1,53 +1,56 @@
 package com.appgame.prestador.di
 
-import com.appgame.prestador.data.localdatasource.LoginLocalDataSource
+import com.appgame.prestador.data.localdatasource.UserLocalDataSource
 import com.appgame.prestador.data.networkdatasource.*
 import com.appgame.prestador.data.repository.*
-import com.appgame.prestador.domain.repository.*
+import com.appgame.prestador.data.repository.impl.*
+import com.appgame.prestador.domain.user.UserUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
-import dagger.hilt.android.scopes.ViewModelScoped
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 object RepositoryModule {
 
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun provideLoginRepository(
         loginNetworkDataSource: LoginNetworkDataSource,
-        localDataSource: LoginLocalDataSource,
+        localDataSource: UserLocalDataSource,
     ): LoginRepository {
         return LoginRepositoryImp(loginNetworkDataSource, localDataSource)
     }
 
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun provideContactRepository(contactsNetworkDataSource: ContactsNetworkDataSource): ContactsRepository {
         return ContactsRepositoryImp(contactsNetworkDataSource)
     }
 
     @Provides
-    @ViewModelScoped
-    fun provideUserRepository(userNetworkDataSource: UserNetworkDataSource): UserRepository {
-        return UserRepositoryImp(userNetworkDataSource)
+    @Singleton
+    fun provideUserRepository(
+        userNetworkDataSource: UserNetworkDataSource,
+        userLocalDataSource: UserLocalDataSource
+    ): UserRepository {
+        return UserRepositoryImp(userNetworkDataSource, userLocalDataSource)
     }
 
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun provideLoanRepository(loanNetworkDataSource: LoanNetworkDataSource): LoanRepository {
         return LoanRepositoryImp(loanNetworkDataSource)
     }
 
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun providePaymentRepository(
-        paymentNetworkDataSource: PaymentNetworkDataSource,
-        loginLocalDataSource: LoginLocalDataSource
+        paymentNetworkDataSource: PaymentNetworkDataSource
     ): PaymentRepository {
-        return PaymentRepositoryImp(paymentNetworkDataSource, loginLocalDataSource)
+        return PaymentRepositoryImp(paymentNetworkDataSource)
     }
 
 }

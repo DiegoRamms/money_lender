@@ -2,13 +2,13 @@ package com.appgame.prestador.presentation.menu
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.appgame.prestador.data.localdatasource.LoginLocalDataSource
+import com.appgame.prestador.data.localdatasource.UserLocalDataSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 
 @HiltViewModel
-class MenuViewModel @Inject constructor(private val localDataSource: LoginLocalDataSource) : ViewModel() {
+class MenuViewModel @Inject constructor(private val localDataSource: UserLocalDataSource) : ViewModel() {
 
     private val _isLogout = MutableLiveData<Boolean>()
     val isLogout get() = _isLogout

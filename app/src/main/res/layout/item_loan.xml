@@ -50,12 +50,37 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_amount"
                 tools:text="%10 de interes" />
 
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:clickable="false"
+                app:chipBackgroundColor="?attr/colorPrimary"
+                app:chipIcon="@drawable/ic_baseline_trending_up_24"
+                app:chipIconTint="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Prestamo" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_pending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:fontFamily="@font/abel"
+                android:text="Por aceptar"
+                android:textColor="@color/orange"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/chip" />
+
             <View
                 android:id="@+id/view_status"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/circle_status_pending"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -65,6 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:alpha=".5"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/view_status"
                 app:layout_constraintEnd_toStartOf="@id/view_status"
                 app:layout_constraintTop_toTopOf="@id/view_status"
@@ -75,5 +101,45 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_pending"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/round_corner_shape"
+        android:elevation="10dp"
+        app:layout_constraintBottom_toBottomOf="@id/card_view"
+        app:layout_constraintEnd_toEndOf="@id/card_view"
+        app:layout_constraintStart_toStartOf="@id/card_view"
+        app:layout_constraintTop_toTopOf="@id/card_view">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/voces"
+            android:text="Aceptar"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias=".2" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_decline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/voces"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:text="Rechazar"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_accept"
+            app:layout_constraintVertical_bias=".1" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

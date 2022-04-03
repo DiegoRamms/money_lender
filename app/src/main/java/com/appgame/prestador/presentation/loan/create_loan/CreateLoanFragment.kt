@@ -13,11 +13,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.appgame.prestador.R
 import com.appgame.prestador.databinding.FragmentCreateLoanBinding
-import com.appgame.prestador.domain.StatusResult
-import com.appgame.prestador.domain.contact.Contact
-import com.appgame.prestador.domain.loan.CreateLoanRequest
-import com.appgame.prestador.domain.loan.DifferenceTime
-import com.appgame.prestador.domain.user.AmountError
+import com.appgame.prestador.model.StatusResult
+import com.appgame.prestador.model.contact.Contact
+import com.appgame.prestador.model.loan.CreateLoanRequest
+import com.appgame.prestador.model.loan.DifferenceTime
+import com.appgame.prestador.model.user.AmountError
 import com.appgame.prestador.utils.*
 import com.appgame.prestador.utils.date.DATE_BASE_FORMAT
 import com.google.android.material.datepicker.MaterialDatePicker

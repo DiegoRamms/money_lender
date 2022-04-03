@@ -11,7 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.appgame.prestador.databinding.FragmentDialogCreatePaymentBinding
-import com.appgame.prestador.domain.payment.CreatePaymentRequest
+import com.appgame.prestador.model.payment.CreatePaymentRequest
 import com.appgame.prestador.utils.LOAN_ID
 import com.appgame.prestador.utils.date.DATE_BASE_FORMAT
 import com.google.android.material.datepicker.MaterialDatePicker

@@ -1,5 +1,6 @@
 package com.appgame.prestador.presentation.payment
 
+import android.animation.ObjectAnimator
 import android.graphics.Paint
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,16 +11,13 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.appgame.prestador.R
 import com.appgame.prestador.databinding.FragmentPaymentsBinding
-import com.appgame.prestador.domain.StatusResult
-import com.appgame.prestador.domain.loan.Loan
-import com.appgame.prestador.domain.loan.LoanIdRequest
-import com.appgame.prestador.domain.payment.Payment
+import com.appgame.prestador.model.StatusResult
+import com.appgame.prestador.model.loan.Loan
+import com.appgame.prestador.model.loan.LoanIdRequest
 import com.appgame.prestador.presentation.payment.adapter.PaymentAdapter
 import com.appgame.prestador.utils.*
-import com.appgame.prestador.utils.date.DATE_BASE_FORMAT
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
@@ -50,9 +48,8 @@ class PaymentsFragment : Fragment() {
         initView()
         initListeners()
         initObservers()
-        loan?.loanId?.let {
-            viewModel.getLoanPaymentDetail(LoanIdRequest(loanId = it))
-        }
+        viewModel.getCurrentUserId()
+
 
         binding?.bottomSheetLayoutInclude?.rvPayments?.apply {
             adapter = paymentAdapter
@@ -152,11 +149,15 @@ class PaymentsFragment : Fragment() {
                         if (paymentInfo.isPaidOut) binding?.tvTotalToPay?.paintFlags =
                             Paint.STRIKE_THRU_TEXT_FLAG;
 
-                        binding?.progressCircular?.progress =
-                            paymentInfo.progressPayPercentage.toInt()
+                        /*binding?.progressCircular?.progress =
+                            paymentInfo.progressPayPercentage.toInt()*/
+
+                        ObjectAnimator.ofInt(binding?.progressCircular,"progress",paymentInfo.progressPayPercentage.toInt())
+                            .setDuration(400)
+                            .start()
 
                         binding?.tvNextPayment?.text = paymentInfo.nextPayTime
-                        paymentAdapter.setCurrentUserId(paymentInfo.currentUserId)
+                        //paymentAdapter.setCurrentUserId(paymentInfo.currentUserId)
                         paymentAdapter.submitList(paymentInfo.payments)
                     }
                 }
@@ -167,6 +168,15 @@ class PaymentsFragment : Fragment() {
                             dialog.dismiss()
                             activity?.finish()
                         })//initDialogError(response.message)
+                }
+            }
+        }
+
+        viewModel.currentUserIdState.observe(viewLifecycleOwner) { currentUserId ->
+            currentUserId.data?.let {
+                paymentAdapter.setCurrentUserId(it)
+                loan?.loanId?.let {
+                    viewModel.getLoanPaymentDetail(LoanIdRequest(loanId = it))
                 }
             }
         }

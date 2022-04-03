@@ -1,6 +1,6 @@
 package com.appgame.prestador.data.networkdatasource.service
 
-import com.appgame.prestador.domain.contact.*
+import com.appgame.prestador.model.contact.*
 import retrofit2.http.Body
 import retrofit2.http.POST
 

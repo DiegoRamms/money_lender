@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.appgame.prestador.R
 import com.appgame.prestador.databinding.ActivityMenuBinding
-import com.appgame.prestador.domain.contact.Contact
+import com.appgame.prestador.model.contact.Contact
 import com.appgame.prestador.main.MainFragment
 import com.appgame.prestador.presentation.contacts.ContactsFragment
 import com.appgame.prestador.presentation.contacts.detail.ContactDetailActivity

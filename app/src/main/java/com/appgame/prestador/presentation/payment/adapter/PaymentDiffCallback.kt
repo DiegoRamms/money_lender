@@ -1,7 +1,7 @@
 package com.appgame.prestador.presentation.payment.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.appgame.prestador.domain.payment.Payment
+import com.appgame.prestador.model.payment.Payment
 
 object PaymentDiffCallback: DiffUtil.ItemCallback<Payment>() {
     override fun areItemsTheSame(oldItem: Payment, newItem: Payment): Boolean {

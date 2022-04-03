@@ -1,8 +1,8 @@
 package com.appgame.prestador.data.networkdatasource.service
 
-import com.appgame.prestador.domain.login.LoginRequest
-import com.appgame.prestador.domain.login.LoginResponse
-import com.appgame.prestador.domain.login.LogoutResponse
+import com.appgame.prestador.model.login.LoginRequest
+import com.appgame.prestador.model.login.LoginResponse
+import com.appgame.prestador.model.login.LogoutResponse
 import retrofit2.http.Body
 import retrofit2.http.POST
 
