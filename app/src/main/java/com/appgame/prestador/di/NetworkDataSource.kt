@@ -43,4 +43,12 @@ object NetworkDataSource {
     fun providePaymentNetworkDataSource(service: PaymentService): PaymentNetworkDataSource{
         return PaymentNetworkDataSourceImp(service)
     }
+
+    @Provides
+    @Singleton
+    fun provideMainDetailNetworkDataSource(service: MainDetailService): MainDetailDetailNetworkDataSource{
+        return MainDetailDetailNetworkDataSourceImp(service)
+    }
+
+
 }

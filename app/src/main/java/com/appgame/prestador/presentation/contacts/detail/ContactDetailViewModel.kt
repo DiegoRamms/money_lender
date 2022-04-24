@@ -11,7 +11,7 @@ import com.appgame.prestador.model.user.UserIdRequest
 import com.appgame.prestador.domain.loan.LoanUseCases
 import com.appgame.prestador.domain.user.UserUseCases
 import com.appgame.prestador.model.loan.Loan
-import com.appgame.prestador.utils.customexception.ShowUserException
+import com.appgame.prestador.utils.customexception.showError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -52,25 +52,44 @@ class ContactDetailViewModel @Inject constructor(
     }
 
     fun getCurrentUserId(){
+        _currentUserIdState.value = BaseResult.resultLoading()
         viewModelScope.launch(mainDispatcher + CoroutineExceptionHandler { _, _ ->
             _currentUserIdState.value = BaseResult.resultBad()
+            _dialogLoading.value = false
         }) {
             withContext(ioDispatcher){
                 _currentUserIdState.postValue(userUseCases.getCurrentUserId())
             }
+            _dialogLoading.value = false
         }
     }
 
     fun acceptLoan(loanId: String){
+        _loanUpdatedState.value = BaseResult.resultLoading()
         viewModelScope.launch(mainDispatcher + CoroutineExceptionHandler { _, throwable ->
-            BaseResult.resultBad(if (throwable is ShowUserException) throwable.message?: "Error" else "Error")
+            _loanUpdatedState.value = throwable.showError()
+            _dialogLoading.value = false
         }) {
             withContext(ioDispatcher){
                 _loanUpdatedState.postValue(
                     loanUseCases.acceptLoan(loanId)
                 )
             }
+            _dialogLoading.value = false
 
+        }
+    }
+
+    fun declineLoan(loanId: String){
+        _loanUpdatedState.value = BaseResult.resultLoading()
+        viewModelScope.launch(mainDispatcher + CoroutineExceptionHandler { _, throwable ->
+            _loanUpdatedState.value = throwable.showError()
+            _dialogLoading.value = false
+        }) {
+            withContext(ioDispatcher){
+                _loanUpdatedState.postValue(loanUseCases.deleteLoan(loanId))
+            }
+            _dialogLoading.value = false
         }
     }
 

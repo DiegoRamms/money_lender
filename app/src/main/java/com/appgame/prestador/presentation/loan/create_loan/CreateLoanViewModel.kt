@@ -10,6 +10,7 @@ import com.appgame.prestador.model.loan.CreateLoanRequest
 import com.appgame.prestador.model.loan.Loan
 import com.appgame.prestador.model.user.*
 import com.appgame.prestador.domain.loan.LoanUseCases
+import com.appgame.prestador.utils.customexception.showError
 import com.appgame.prestador.utils.date.DATE_BASE_FORMAT
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -36,8 +37,8 @@ class CreateLoanViewModel @Inject constructor(
 
     fun createLoan(createLoanRequest: CreateLoanRequest) {
         _loan.value = BaseResult.resultLoading()
-        viewModelScope.launch(mainDispatcher + CoroutineExceptionHandler { _, t ->
-            _loan.value = BaseResult.resultBad(t.message + ". "+ t.localizedMessage + "  "+ t.stackTrace)
+        viewModelScope.launch(mainDispatcher + CoroutineExceptionHandler { _, throwable ->
+            _loan.value = throwable.showError()
             _dialogLoading.value = false
         }) {
             withContext(ioDispatcher) {

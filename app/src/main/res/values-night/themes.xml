@@ -23,6 +23,8 @@
         <item name="colorDivider">@color/light_grey</item>
         <item name="colorBackgroundSecondary">@color/black_background_secondary</item>
 
+        <item name="colorCircularShape">@color/grey_gallery</item>
+
 
 
         <item name="android:windowContentTransitions">true</item>

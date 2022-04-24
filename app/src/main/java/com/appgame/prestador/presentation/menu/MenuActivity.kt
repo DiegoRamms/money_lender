@@ -9,7 +9,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.appgame.prestador.R
 import com.appgame.prestador.databinding.ActivityMenuBinding
 import com.appgame.prestador.model.contact.Contact
-import com.appgame.prestador.main.MainFragment
+import com.appgame.prestador.presentation.main.MainFragment
 import com.appgame.prestador.presentation.contacts.ContactsFragment
 import com.appgame.prestador.presentation.contacts.detail.ContactDetailActivity
 import com.appgame.prestador.presentation.contacts.pending.PendingContactActivity
@@ -39,7 +39,7 @@ class MenuActivity : AppCompatActivity(), ContactsFragment.ClickDetailContact {
     }
 
     private fun initObserver() {
-        viewModel.isLogout.observe(this, {
+        viewModel.isLogout.observe(this) {
             if (it) {
                 Intent(applicationContext, LoginActivity::class.java).apply {
                     putExtra("IS_LOG_OUT", true)
@@ -47,7 +47,7 @@ class MenuActivity : AppCompatActivity(), ContactsFragment.ClickDetailContact {
                 }
                 finish()
             }
-        })
+        }
     }
 
     private fun initView() {
@@ -103,7 +103,7 @@ class MenuActivity : AppCompatActivity(), ContactsFragment.ClickDetailContact {
                 }
 
                 R.id.alert -> {
-                    initPendingContactsFragment()
+                    initializePendingContactsFragment()
                     true
                 }
 
@@ -127,7 +127,7 @@ class MenuActivity : AppCompatActivity(), ContactsFragment.ClickDetailContact {
         }
     }
 
-    private fun initPendingContactsFragment() {
+    private fun initializePendingContactsFragment() {
         val intent = Intent(applicationContext, PendingContactActivity::class.java)
         startForResultPendingContact.launch(intent)
     }

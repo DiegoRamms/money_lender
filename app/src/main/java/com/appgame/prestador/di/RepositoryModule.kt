@@ -53,4 +53,14 @@ object RepositoryModule {
         return PaymentRepositoryImp(paymentNetworkDataSource)
     }
 
+    @Provides
+    @Singleton
+    fun provideMainDetailRepository(
+        mainDetailDetailNetworkDataSource: MainDetailDetailNetworkDataSource
+    ): MainDetailRepository {
+        return MainDetailRepositoryImp(mainDetailDetailNetworkDataSource)
+    }
+
+
+
 }

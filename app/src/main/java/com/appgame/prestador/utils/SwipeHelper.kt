@@ -3,6 +3,7 @@ package com.appgame.prestador.utils
 import android.graphics.*
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.appgame.prestador.presentation.main.adapter.TransactionAdapter
 
 
 class SwipeHelper(onSwipeListener: ((Int) -> Unit)): ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT) {
@@ -18,6 +19,14 @@ class SwipeHelper(onSwipeListener: ((Int) -> Unit)): ItemTouchHelper.SimpleCallb
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         onSwipeListener?.invoke(viewHolder.adapterPosition)
+    }
+
+    override fun getMovementFlags(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder
+    ): Int {
+        return if (viewHolder is TransactionAdapter.ViewHolder) 0
+        else super.getMovementFlags(recyclerView, viewHolder)
     }
 
     override fun onChildDraw(

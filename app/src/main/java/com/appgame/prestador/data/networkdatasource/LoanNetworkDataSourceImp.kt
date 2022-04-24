@@ -1,5 +1,6 @@
 package com.appgame.prestador.data.networkdatasource
 
+import android.util.Log
 import com.appgame.prestador.data.networkdatasource.service.LoanService
 import com.appgame.prestador.model.loan.CreateLoanRequest
 import com.appgame.prestador.model.loan.LoanChangeStatusRequest

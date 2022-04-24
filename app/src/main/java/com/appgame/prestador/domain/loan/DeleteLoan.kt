@@ -7,6 +7,6 @@ import com.appgame.prestador.model.loan.LoanChangeStatusRequest
 
 class DeleteLoan(private val loanRepository: LoanRepository) {
     suspend operator fun invoke(loanId: String): BaseResult<Loan>{
-        return loanRepository.changeStatusLoan(LoanChangeStatusRequest(loanId,"REJECT"))
+        return loanRepository.changeStatusLoan(LoanChangeStatusRequest(loanId,"REJECTED"))
     }
 }

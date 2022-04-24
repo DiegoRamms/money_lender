@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -101,7 +102,7 @@ class ContactDetailFragment : Fragment() {
         }
 
         loanAdapter.clickDeclineListener {
-            requireContext().toastLong("Decline")
+            viewModel.declineLoan(it.loanId)
         }
     }
 
@@ -127,6 +128,18 @@ class ContactDetailFragment : Fragment() {
 
             }
 
+        }
+
+        viewModel.loanUpdatedState.observe(viewLifecycleOwner){
+            response ->
+            when(response.status){
+                StatusResult.LOADING -> initDialog()
+                StatusResult.OK -> {
+                    requireContext().toastLong(response.message)
+                    viewModel.getCurrentUserId()
+                }
+                StatusResult.BAD -> initDialogError(response.message) { dialogError.dismiss() }
+            }
         }
 
         viewModel.dialogLoading.observe(viewLifecycleOwner) {
@@ -181,8 +194,8 @@ class ContactDetailFragment : Fragment() {
         }
     }
 
-    private fun initDialogError(message: String) {
-        dialogError.showDialog(parentFragmentManager, message, listener = {requireActivity().finish()})
+    private fun initDialogError(message: String, listener: () -> Unit =  {requireActivity().finish()}) {
+        dialogError.showDialog(parentFragmentManager, message, listener = listener)
     }
 
     private fun initDialog() {

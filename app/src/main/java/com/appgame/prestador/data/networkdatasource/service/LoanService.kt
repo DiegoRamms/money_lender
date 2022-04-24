@@ -16,5 +16,5 @@ interface LoanService {
     suspend fun createLoan(@Body createLoanRequest: CreateLoanRequest): LoanResponse
 
     @POST("loan/changeStatus")
-    suspend fun changeLoanStatus(loanChangeStatusRequest: LoanChangeStatusRequest): LoanResponse
+    suspend fun changeLoanStatus(@Body loanChangeStatusRequest: LoanChangeStatusRequest): LoanResponse
 }

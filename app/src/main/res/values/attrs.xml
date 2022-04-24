@@ -10,5 +10,6 @@
         <attr name="colorGenericIcon" format="color"/>
         <attr name="colorDivider" format="color"/>
         <attr name="colorBackgroundSecondary" format="color"/>
+        <attr name="colorCircularShape" format="color"/>
     </declare-styleable>
 </resources>

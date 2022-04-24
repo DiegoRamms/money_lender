@@ -11,6 +11,7 @@ import com.appgame.prestador.R
 import com.appgame.prestador.databinding.ItemLoanBinding
 import com.appgame.prestador.model.loan.Loan
 import com.appgame.prestador.utils.LoanStatus
+import com.appgame.prestador.utils.clickWithDelay
 import com.appgame.prestador.utils.mapStatus
 
 class LoanAdapter : ListAdapter<Loan, LoanAdapter.ViewHolder>(LoanDiffCallback) {
@@ -74,15 +75,15 @@ class LoanAdapter : ListAdapter<Loan, LoanAdapter.ViewHolder>(LoanDiffCallback) 
 
 
 
-            binding.cardView.setOnClickListener {
+            binding.cardView.clickWithDelay {
                 onItemListener?.let { it(getItem(adapterPosition)) }
             }
 
-            binding.btnAccept.setOnClickListener {
+            binding.btnAccept.clickWithDelay {
                 onAcceptListener?.let { it(getItem(adapterPosition)) }
             }
 
-            binding.btnDecline.setOnClickListener {
+            binding.btnDecline.clickWithDelay {
                 onDeclineListener?.let { it(getItem(adapterPosition)) }
             }
 

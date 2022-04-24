@@ -102,7 +102,7 @@ class ContactsFragment : Fragment() {
 
 
     private fun initObserver() {
-        viewModel.contacts.observe(viewLifecycleOwner, { result ->
+        viewModel.contacts.observe(viewLifecycleOwner) { result ->
             when (result.status) {
                 StatusResult.LOADING -> {
                     initDialog()
@@ -123,7 +123,7 @@ class ContactsFragment : Fragment() {
                     initDialogError(result.message)
                 }
             }
-        })
+        }
 
         viewModel.contactDeleted.observe(viewLifecycleOwner, {
             when (it.status) {
