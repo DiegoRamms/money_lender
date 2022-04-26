@@ -1,5 +1,6 @@
 package com.appgame.prestador.presentation.payment
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,6 +14,7 @@ import com.appgame.prestador.model.payment.Payment
 import com.appgame.prestador.domain.payment.PaymentUseCases
 import com.appgame.prestador.domain.user.GetCurrentUserId
 import com.appgame.prestador.domain.user.UserUseCases
+import com.appgame.prestador.model.payment.PaymentRequest
 import com.appgame.prestador.utils.customexception.showError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -79,6 +81,19 @@ class PaymentsViewModel @Inject constructor(
 
     fun setDialogLoadingTrue() {
         _dialogLoading.value = true
+    }
+
+    fun acceptPayment(paymentRequest: PaymentRequest) {
+        viewModelScope.launch(mainDispatcher + CoroutineExceptionHandler { _, throwable ->
+           Log.e("t",throwable.message+"-")
+            _payment.value = throwable.showError()
+            _dialogLoading.value = false
+        }) {
+            withContext(ioDispatcher){
+                _payment.postValue(useCases.acceptPayment(paymentRequest))
+                _dialogLoading.postValue(false)
+            }
+        }
     }
 
 

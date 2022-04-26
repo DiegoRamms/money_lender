@@ -11,12 +11,13 @@ import com.appgame.prestador.model.payment.Payment
 
 class PaymentAdapter: ListAdapter<Payment, RecyclerView.ViewHolder>(PaymentDiffCallback) {
 
-    private var currentUserId = ""
-
     companion object {
         const val VIEW_PAYMENT = 1
         const val VIEW_PAYMENT_PENDING = 2
     }
+
+    private var currentUserId = ""
+    private var callback: ((Payment) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if(viewType == VIEW_PAYMENT)
@@ -53,6 +54,10 @@ class PaymentAdapter: ListAdapter<Payment, RecyclerView.ViewHolder>(PaymentDiffC
             binding.tvAmount.text = amount
 
             binding.btnAcept.visibility = if (payment.user == currentUserId) View.GONE else View.VISIBLE
+
+            binding.btnAcept.setOnClickListener {
+                callback?.let { it(payment) }
+            }
         }
 
     }
@@ -60,6 +65,10 @@ class PaymentAdapter: ListAdapter<Payment, RecyclerView.ViewHolder>(PaymentDiffC
 
     fun setCurrentUserId(currentUserId: String){
         this.currentUserId = currentUserId
+    }
+
+    fun clickListenerAcceptPayment(listener: ((Payment) -> Unit)){
+        callback = listener
     }
 
 

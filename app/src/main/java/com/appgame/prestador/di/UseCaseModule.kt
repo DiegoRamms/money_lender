@@ -9,6 +9,7 @@ import com.appgame.prestador.domain.login.Logout
 import com.appgame.prestador.domain.login.QuitUserInfo
 import com.appgame.prestador.domain.main.GetMainDetail
 import com.appgame.prestador.domain.main.MainUseCases
+import com.appgame.prestador.domain.payment.AcceptPayment
 import com.appgame.prestador.domain.payment.CreatePayment
 import com.appgame.prestador.domain.payment.GetLoanPaymentDetail
 import com.appgame.prestador.domain.payment.PaymentUseCases
@@ -73,7 +74,8 @@ object UseCaseModule {
     fun providePaymentUseCases(paymentRepository: PaymentRepository): PaymentUseCases {
         return PaymentUseCases(
             getLoanPaymentDetail = GetLoanPaymentDetail(paymentRepository),
-            createPayment = CreatePayment(paymentRepository)
+            createPayment = CreatePayment(paymentRepository),
+            acceptPayment = AcceptPayment(paymentRepository)
         )
     }
 

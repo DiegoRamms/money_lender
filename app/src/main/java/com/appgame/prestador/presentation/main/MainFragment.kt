@@ -13,10 +13,7 @@ import com.appgame.prestador.databinding.FragmentMainBinding
 import com.appgame.prestador.model.StatusResult
 import com.appgame.prestador.model.transaction.Transaction
 import com.appgame.prestador.presentation.main.adapter.TransactionAdapter
-import com.appgame.prestador.utils.ErrorDialogFragment
-import com.appgame.prestador.utils.LoadingDialogFragment
-import com.appgame.prestador.utils.SwipeHelper
-import com.appgame.prestador.utils.simpleDialog
+import com.appgame.prestador.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -76,6 +73,11 @@ class MainFragment : Fragment() {
         binding?.swipe?.setOnRefreshListener {
             binding?.swipe?.isRefreshing = false
             viewModel.getMainDetail()
+        }
+
+        transactionsAdapter.clickListenerTransaction {
+            transaction ->
+            requireContext().toastLong(transaction.name)
         }
     }
 

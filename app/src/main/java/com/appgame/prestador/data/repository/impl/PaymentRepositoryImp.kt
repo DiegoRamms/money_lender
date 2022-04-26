@@ -29,4 +29,11 @@ class PaymentRepositoryImp(
         val payment = PaymentDTOMapper.mapToDomainModel(response.paymentDTO)
         return BaseResult.resultOK(response.msg, payment, response.code)
     }
+
+    override suspend fun acceptPayment(paymentRequest: PaymentRequest): BaseResult<Payment> {
+        val response = paymentNetworkDataSource.acceptPayment(paymentRequest)
+        response.handleServiceErrors()
+        val payment = PaymentDTOMapper.mapToDomainModel(response.paymentDTO)
+        return BaseResult.resultOK(response.msg,payment, response.code)
+    }
 }

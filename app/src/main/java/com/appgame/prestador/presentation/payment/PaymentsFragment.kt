@@ -14,6 +14,7 @@ import com.appgame.prestador.databinding.FragmentPaymentsBinding
 import com.appgame.prestador.model.StatusResult
 import com.appgame.prestador.model.loan.Loan
 import com.appgame.prestador.model.loan.LoanIdRequest
+import com.appgame.prestador.model.payment.PaymentRequest
 import com.appgame.prestador.presentation.payment.adapter.PaymentAdapter
 import com.appgame.prestador.utils.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -130,6 +131,11 @@ class PaymentsFragment : Fragment() {
             viewModel.createPayment(createPaymentRequest)
         }
 
+        paymentAdapter.clickListenerAcceptPayment {
+            payment ->
+            viewModel.acceptPayment(PaymentRequest(payment.paymentId))
+        }
+
     }
 
     private fun initObservers() {
@@ -186,7 +192,7 @@ class PaymentsFragment : Fragment() {
                 StatusResult.LOADING -> initDialog()
                 StatusResult.OK -> {
                     response.data?.loanId?.let {viewModel.getLoanPaymentDetail(LoanIdRequest(it))}
-                    context?.simpleDialog(title = "Creado", message = response.message)
+                    context?.simpleDialog(title = "Exito", message = response.message)
                     dialogCreatePayment.dismiss()
                 }
                 StatusResult.BAD -> {
