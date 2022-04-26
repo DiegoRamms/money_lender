@@ -28,7 +28,7 @@
             android:name=".presentation.contacts.request_pending.AddContactActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".utils.SessionExpiredActivity"
+            android:name=".presentation.sessionexpired.SessionExpiredActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Transparent" />
 

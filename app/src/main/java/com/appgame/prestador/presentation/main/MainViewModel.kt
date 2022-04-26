@@ -25,6 +25,9 @@ class MainViewModel @Inject constructor(
     @MainDispatcher private val mainDispatcher: CoroutineContext
 ) : ViewModel() {
 
+
+    private val _dialogLoadingState = MutableLiveData<Boolean>()
+    val dialogLoadingState get() = _dialogLoadingState
     private val _mainDetailState = MutableLiveData<BaseResult<MainDetail>>()
     val mainDetailState get() = _mainDetailState
 
@@ -36,13 +39,19 @@ class MainViewModel @Inject constructor(
         _mainDetailState.value = BaseResult.resultLoading()
         viewModelScope.launch(mainDispatcher + CoroutineExceptionHandler { _, throwable ->
             _mainDetailState.value = throwable.showError()
+            _dialogLoadingState.value = false
         }) {
             withContext(ioDispatcher) {
                 _mainDetailState.postValue(
                     mainUseCases.getMainDetail()
                 )
             }
+            _dialogLoadingState.value = false
         }
+    }
+
+    fun setDialogLoadingTrue(){
+        _dialogLoadingState.value = true
     }
 
 }

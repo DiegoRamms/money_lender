@@ -1,6 +1,7 @@
 package com.appgame.prestador.model.maindetail
 
 import com.appgame.prestador.model.Mapper
+import com.appgame.prestador.model.loan.LoanMapper
 import com.appgame.prestador.model.transaction.TransactionDTOMapper
 
 object MainDetailDTOMapper : Mapper<MainDetailDTO, MainDetail> {
@@ -13,7 +14,8 @@ object MainDetailDTOMapper : Mapper<MainDetailDTO, MainDetail> {
             model.debtsPercentagePaid,
             model.loansCount,
             model.debtsCount,
-            TransactionDTOMapper.mapListToDomainModel(model.transactionsDTO)
+            TransactionDTOMapper.mapListToDomainModel(model.transactionsDTO),
+            LoanMapper.mapToDomainModel(model.loanNearDueDTO)
         )
     }
 
@@ -26,7 +28,8 @@ object MainDetailDTOMapper : Mapper<MainDetailDTO, MainDetail> {
             domainModel.debtsPercentagePaid,
             domainModel.loansCount,
             domainModel.debtsCount,
-            TransactionDTOMapper.mapListFromDomainModel(domainModel.transactions)
+            TransactionDTOMapper.mapListFromDomainModel(domainModel.transactions),
+            LoanMapper.mapFromDomainModel(domainModel.loanNearDue)
         )
     }
 }

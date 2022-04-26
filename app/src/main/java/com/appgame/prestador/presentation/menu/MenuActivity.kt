@@ -32,7 +32,7 @@ class MenuActivity : AppCompatActivity(), ContactsFragment.ClickDetailContact {
         setContentView(binding.root)
         supportActionBar?.hide()
 
-        initView()
+
         initObserver()
 
 
@@ -46,7 +46,7 @@ class MenuActivity : AppCompatActivity(), ContactsFragment.ClickDetailContact {
                     startActivity(this)
                 }
                 finish()
-            }
+            }else initView()
         }
     }
 

@@ -19,7 +19,7 @@ class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding
-    private val dialogLoading: LoadingDialogFragment by lazy { LoadingDialogFragment.newInstance() }
+    private val loadingDialogFragment: LoadingDialogFragment by lazy { LoadingDialogFragment.newInstance() }
     private val viewModel: LoginViewModel by viewModels()
     private var callback: ClickLogin? = null
     private var isLogout = false
@@ -36,13 +36,20 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initObservers()
+        observeLoginState()
+        observeLoadingState()
+        initListeners()
 
         isLogout = requireArguments().getBoolean("IS_LOG_OUT",false)
 
         binding?.edtUser?.setText("diego1@gmail.com")
         binding?.edtPassword?.setText("123442332342345")
 
+        if (isLogout) viewModel.logout()
+
+    }
+
+    private fun initListeners(){
         binding?.btnLogin?.setOnClickListener {
             viewModel.login(
                 LoginRequest(
@@ -52,11 +59,9 @@ class LoginFragment : Fragment() {
                 )
             )
         }
-        if (isLogout) viewModel.logout()
-
     }
 
-    private fun initObservers() {
+    private fun observeLoginState() {
         viewModel.loginResponse.observe(viewLifecycleOwner) {
             when (it.status) {
                 StatusResult.LOADING -> {
@@ -64,12 +69,12 @@ class LoginFragment : Fragment() {
                 }
                 StatusResult.OK -> {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                    dialogLoading.dismiss()
+
                     callback?.onClickLogin()
                 }
                 StatusResult.BAD -> {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                    dialogLoading.dismiss()
+
                 }
             }
 
@@ -79,20 +84,21 @@ class LoginFragment : Fragment() {
                 StatusResult.LOADING -> {
                     initDialog()
                 }
-                StatusResult.OK -> {
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                    dialogLoading.dismiss()
-                }
-                StatusResult.BAD -> {
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                    dialogLoading.dismiss()
-                }
+                StatusResult.OK -> {}
+                StatusResult.BAD -> {}
             }
         }
     }
 
-    private fun initDialog(){
-        dialogLoading.showDialog(parentFragmentManager)
+    private fun observeLoadingState(){
+        viewModel.dialogLoadingState.observe(viewLifecycleOwner){
+            if (!it) loadingDialogFragment.dismiss()
+        }
+    }
+
+    private fun initDialog() {
+        viewModel.setDialogLoadingTrue()
+        loadingDialogFragment.showDialog(parentFragmentManager)
     }
 
     override fun onAttach(context: Context) {

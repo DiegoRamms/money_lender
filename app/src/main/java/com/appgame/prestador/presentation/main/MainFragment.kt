@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.appgame.prestador.databinding.FragmentMainBinding
 import com.appgame.prestador.model.StatusResult
 import com.appgame.prestador.model.transaction.Transaction
-import com.appgame.prestador.model.transaction.TransactionType
 import com.appgame.prestador.presentation.main.adapter.TransactionAdapter
 import com.appgame.prestador.utils.ErrorDialogFragment
 import com.appgame.prestador.utils.LoadingDialogFragment
@@ -45,7 +45,8 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initView()
-        initObservers()
+        observeMainInfo()
+        observeLoadingState()
         initListeners()
 
 
@@ -64,7 +65,7 @@ class MainFragment : Fragment() {
 
         binding?.rvTransactions?.apply {
             adapter = transactionsAdapter
-            layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+            layoutManager = GridLayoutManager(requireContext(),1)
             //itemTouchHelper.attachToRecyclerView(this)
         }
 
@@ -78,16 +79,16 @@ class MainFragment : Fragment() {
         }
     }
 
-    private fun initObservers() {
+    private fun observeMainInfo() {
         viewModel.mainDetailState.observe(viewLifecycleOwner) { response ->
             when (response.status) {
-                StatusResult.LOADING -> {}
+                StatusResult.LOADING -> {initDialog()}
                 StatusResult.OK -> {
                     val data = response.data
                     data?.let {
                         mainDetail ->
                         val textProgressLoans = "Te han pagadp el %${mainDetail.loansPercentagePaid} de tus prestamos activos"
-                        val textProgressDebts = "Haz el %${mainDetail.debtsPercentagePaid} de tus deudas activas"
+                        val textProgressDebts = "Haz pagado el %${mainDetail.debtsPercentagePaid} de tus deudas activas"
                         binding?.tvGreeting?.text = mainDetail.greeting
                         "$${mainDetail.loansAmount}".also { binding?.tvAmountLoans?.text = it }
                         "$${mainDetail.debtsAmount}".also { binding?.tvAmountDebts?.text = it }
@@ -97,6 +98,8 @@ class MainFragment : Fragment() {
                         binding?.progressDebts?.progress = mainDetail.debtsPercentagePaid.toInt()
                         binding?.tvLoansCount?.text = mainDetail.loansCount
                         binding?.tvDebtsCount?.text = mainDetail.debtsCount
+                        binding?.tvDateNextPayment?.text = mainDetail.loanNearDue.dateLimit
+                        binding?.tvLoanDueAmount?.text = "$${mainDetail.loanNearDue.amount}"
                         transactionsAdapter.submitList(mainDetail.transactions)
 
                     }
@@ -109,9 +112,20 @@ class MainFragment : Fragment() {
                 }
             }
         }
+
+
     }
 
+    private fun observeLoadingState(){
+        viewModel.dialogLoadingState.observe(viewLifecycleOwner){
+            if (!it) loadingDialogFragment.dismiss()
+        }
+    }
 
+    private fun initDialog() {
+        viewModel.setDialogLoadingTrue()
+        loadingDialogFragment.showDialog(parentFragmentManager)
+    }
 
     companion object {
         val TAG: String = MainFragment::class.java.simpleName

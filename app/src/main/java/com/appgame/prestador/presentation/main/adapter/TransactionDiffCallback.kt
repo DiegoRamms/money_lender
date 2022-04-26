@@ -9,6 +9,6 @@ object TransactionDiffCallback: DiffUtil.ItemCallback<Transaction>() {
     }
 
     override fun areContentsTheSame(oldItem: Transaction, newItem: Transaction): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem == newItem
     }
 }

@@ -9,4 +9,5 @@ import com.appgame.prestador.model.user.User
 interface LoginRepository {
     suspend fun login(loginRequest: LoginRequest): BaseResult<User>
     suspend fun logout(): BaseResult<LogoutResponse>
+    suspend fun quitUserInfo(): BaseResult<LogoutResponse>
 }

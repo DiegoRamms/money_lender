@@ -6,7 +6,7 @@ import android.util.Log
 import com.appgame.prestador.data.localdatasource.UserLocalDataSource
 import com.appgame.prestador.data.networkdatasource.service.*
 import com.appgame.prestador.utils.CODE_SESSION_EXPIRED
-import com.appgame.prestador.utils.SessionExpiredActivity
+import com.appgame.prestador.presentation.sessionexpired.SessionExpiredActivity
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,9 +32,9 @@ object NetworkModule {
         localDataSource: UserLocalDataSource
     ): OkHttpClient {
         return OkHttpClient.Builder()
-            .readTimeout(10,TimeUnit.SECONDS)
-            .writeTimeout(10,TimeUnit.SECONDS)
-            .connectTimeout(10,TimeUnit.SECONDS)
+            .readTimeout(15,TimeUnit.SECONDS)
+            .writeTimeout(15,TimeUnit.SECONDS)
+            .connectTimeout(15,TimeUnit.SECONDS)
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .addInterceptor { chain ->
                 val request = chain.request()
@@ -45,10 +45,12 @@ object NetworkModule {
                 val responseString = response.peekBody(Long.MAX_VALUE).string()
                 try {
                     val jsonResponse = JSONObject(responseString)
-                    if (jsonResponse["code"] == CODE_SESSION_EXPIRED) {
-                        val intent = Intent(context,SessionExpiredActivity::class.java)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        context.startActivity(intent)
+                    if (jsonResponse.has("code")){
+                        if (jsonResponse["code"] == CODE_SESSION_EXPIRED) {
+                            val intent = Intent(context, SessionExpiredActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            context.startActivity(intent)
+                        }
                     }
 
                 } catch (e: Exception) {

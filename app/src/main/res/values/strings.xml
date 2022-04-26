@@ -23,5 +23,8 @@
     <string name="to_accept">Aceptar</string>
     <string name="pending">Pendiente</string>
     <string name="is_paid_out">Pago liquidado</string>
+    <string name="amount_zero">$0.0</string>
+    <string name="three_dots">...</string>
+    <string name="date_format">--/--/----</string>
 
 </resources>

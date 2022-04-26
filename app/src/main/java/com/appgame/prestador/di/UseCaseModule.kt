@@ -4,8 +4,9 @@ import com.appgame.prestador.data.repository.*
 import com.appgame.prestador.domain.contact.*
 import com.appgame.prestador.domain.loan.*
 import com.appgame.prestador.domain.login.Login
-import com.appgame.prestador.domain.login.LoginUseCase
+import com.appgame.prestador.domain.login.LoginUseCases
 import com.appgame.prestador.domain.login.Logout
+import com.appgame.prestador.domain.login.QuitUserInfo
 import com.appgame.prestador.domain.main.GetMainDetail
 import com.appgame.prestador.domain.main.MainUseCases
 import com.appgame.prestador.domain.payment.CreatePayment
@@ -17,8 +18,6 @@ import com.appgame.prestador.domain.user.UserUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
-import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -28,10 +27,11 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun providesLoginUseCase(loginRepository: LoginRepository): LoginUseCase{
-        return LoginUseCase(
+    fun providesLoginUseCase(loginRepository: LoginRepository): LoginUseCases{
+        return LoginUseCases(
             Login(loginRepository),
-            Logout(loginRepository)
+            Logout(loginRepository),
+            QuitUserInfo(loginRepository)
         )
     }
 

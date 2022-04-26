@@ -60,5 +60,9 @@ class LoginRepositoryImp @Inject constructor(
 
     }
 
-
+    override suspend fun quitUserInfo(): BaseResult<LogoutResponse> {
+        loginLocalDataSource.deleteJWT()
+        loginLocalDataSource.deleteUserId()
+        return BaseResult.resultOK(message = "Sesión cerrada", data = LogoutResponse(true, "Sesión cerrada"), CODE_OK_RESPONSE)
+    }
 }
